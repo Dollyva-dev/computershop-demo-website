@@ -13,7 +13,7 @@ const ACCESSORY_PRODUCTS = [
     name: "Wooting 60HE+ Analog Keyboard", 
     price: 174.99, 
     category: "Keyboards", 
-    image: "/placeholder-keyboard-1.png", 
+    image: "/placeholder-keyboard-1.webp", 
     inStock: true 
   },
   { 
@@ -21,7 +21,7 @@ const ACCESSORY_PRODUCTS = [
     name: "Logitech G PRO X SUPERLIGHT 2", 
     price: 159.00, 
     category: "Mice", 
-    image: "/placeholder-mouse-1.png", 
+    image: "/placeholder-mouse-1.webp", 
     inStock: true 
   },
   { 
@@ -29,7 +29,7 @@ const ACCESSORY_PRODUCTS = [
     name: "SteelSeries Arctis Nova Pro Wireless", 
     price: 349.99, 
     category: "Headsets", 
-    image: "/placeholder-headset-1.png", 
+    image: "/placeholder-headset-1.webp", 
     inStock: false 
   },
   { 
@@ -37,7 +37,7 @@ const ACCESSORY_PRODUCTS = [
     name: "Corsair MM700 RGB Extended Mouse Pad", 
     price: 59.99, 
     category: "Mousepads", 
-    image: "/placeholder-mousepad-1.png", 
+    image: "/placeholder-mousepad-1.webp", 
     inStock: true 
   },
   { 
@@ -45,7 +45,7 @@ const ACCESSORY_PRODUCTS = [
     name: "Keychron Q1 Pro Wireless Custom", 
     price: 199.00, 
     category: "Keyboards", 
-    image: "/placeholder-keyboard-2.png", 
+    image: "/placeholder-keyboard-2.webp", 
     inStock: true 
   },
   { 
@@ -53,7 +53,7 @@ const ACCESSORY_PRODUCTS = [
     name: "Razer DeathAdder V3 Pro", 
     price: 149.99, 
     category: "Mice", 
-    image: "/placeholder-mouse-2.png", 
+    image: "/placeholder-mouse-2.webp", 
     inStock: true 
   },
 ];

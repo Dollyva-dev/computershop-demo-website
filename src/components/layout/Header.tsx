@@ -58,16 +58,16 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-          <Link href="/products" className="hover:text-white transition-colors">Products</Link>
-          <Link href="/accessories" className="hover:text-white transition-colors">Accessories</Link>
-          <Link href="/brands" className="hover:text-white transition-colors">Brands</Link>
-          <Link href="/laptops" className="hover:text-white transition-colors">Laptops</Link>
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+          <Link href="/products" className="nav-products">Products</Link>
+          <Link href="/accessories" className="nav-accessories">Accessories</Link>
+          <Link href="/brands" className="nav-brands">Brands</Link>
+          <Link href="/laptops" className="nav-laptops">Laptops</Link>
           
           {/* Build My PC - Highlighted Button */}
           <Link 
             href="/build" 
-            className="relative px-5 py-2 text-white bg-blue-600/10 border border-blue-500/30 rounded-full hover:bg-blue-600/20 hover:border-blue-400 hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all duration-300"
+            className="nav-build relative px-5 py-2 text-white bg-blue-600/10 border border-blue-500/30 rounded-full transition-all duration-300"
           >
             Build My PC
           </Link>

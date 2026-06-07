@@ -54,7 +54,7 @@ export default function InventoryPage() {
   };
 
   return (
-    <div className="p-8 max-w-[1600px] mx-auto relative min-h-screen">
+    <div className="p-8 pt-24 max-w-[1600px] mx-auto relative min-h-screen">
       
       {/* Page Header & Actions */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">

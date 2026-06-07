@@ -17,7 +17,7 @@ export default function AdminDashboard() {
   }, { scope: containerRef });
 
   return (
-    <div ref={containerRef} className="p-8 max-w-7xl mx-auto">
+    <div ref={containerRef} className="p-8 pt-24 max-w-7xl mx-auto">
       
       <div className="flex items-center justify-between mb-8 admin-stagger opacity-0">
         <div>

@@ -14,33 +14,33 @@ const CATEGORIES: Category[] = ["CPU", "Motherboard", "Memory", "Storage", "GPU"
 
 const MOCK_DATA: Record<Category, Part[]> = {
   CPU: [
-    { id: "c1", name: "Intel Core i9-14900K", price: 589.99, image: "/placeholder-cpu.png", specs: "24-Core, 6.0 GHz" },
-    { id: "c2", name: "AMD Ryzen 9 7950X3D", price: 649.00, image: "/placeholder-cpu.png", specs: "16-Core, 5.7 GHz" },
-    { id: "c3", name: "Intel Core i7-14700K", price: 399.99, image: "/placeholder-cpu.png", specs: "20-Core, 5.6 GHz" },
+    { id: "c1", name: "Intel Core i9-14900K", price: 589.99, image: "/placeholder-cpu.webp", specs: "24-Core, 6.0 GHz" },
+    { id: "c2", name: "AMD Ryzen 9 7950X3D", price: 649.00, image: "/placeholder-cpu.webp", specs: "16-Core, 5.7 GHz" },
+    { id: "c3", name: "Intel Core i7-14700K", price: 399.99, image: "/placeholder-cpu.webp", specs: "20-Core, 5.6 GHz" },
   ],
   Motherboard: [
-    { id: "m1", name: "ASUS ROG Maximus Z790 Hero", price: 629.99, image: "/placeholder-mobo.png", specs: "LGA 1700, DDR5, Wi-Fi 6E" },
-    { id: "m2", name: "MSI MAG B650 Tomahawk", price: 219.99, image: "/placeholder-mobo.png", specs: "AM5, DDR5, Wi-Fi 6E" },
+    { id: "m1", name: "ASUS ROG Maximus Z790 Hero", price: 629.99, image: "/placeholder-mobo.webp", specs: "LGA 1700, DDR5, Wi-Fi 6E" },
+    { id: "m2", name: "MSI MAG B650 Tomahawk", price: 219.99, image: "/placeholder-mobo.webp", specs: "AM5, DDR5, Wi-Fi 6E" },
   ],
   Memory: [
-    { id: "r1", name: "Corsair Dominator Titanium 64GB", price: 315.00, image: "/placeholder-ram.png", specs: "DDR5 6000MHz CL30" },
-    { id: "r2", name: "G.Skill Trident Z5 RGB 32GB", price: 119.99, image: "/placeholder-ram.png", specs: "DDR5 6400MHz CL32" },
+    { id: "r1", name: "Corsair Dominator Titanium 64GB", price: 315.00, image: "/placeholder-ram.webp", specs: "DDR5 6000MHz CL30" },
+    { id: "r2", name: "G.Skill Trident Z5 RGB 32GB", price: 119.99, image: "/placeholder-ram.webp", specs: "DDR5 6400MHz CL32" },
   ],
   Storage: [
-    { id: "s1", name: "Samsung 990 PRO 2TB", price: 169.99, image: "/placeholder-ssd.png", specs: "PCIe 4.0 NVMe M.2" },
-    { id: "s2", name: "WD Black SN850X 4TB", price: 299.99, image: "/placeholder-ssd.png", specs: "PCIe 4.0 NVMe M.2" },
+    { id: "s1", name: "Samsung 990 PRO 2TB", price: 169.99, image: "/placeholder-ssd.webp", specs: "PCIe 4.0 NVMe M.2" },
+    { id: "s2", name: "WD Black SN850X 4TB", price: 299.99, image: "/placeholder-ssd.webp", specs: "PCIe 4.0 NVMe M.2" },
   ],
   GPU: [
-    { id: "g1", name: "NVIDIA GeForce RTX 4090 FE", price: 1599.99, image: "/placeholder-gpu.png", specs: "24GB GDDR6X" },
-    { id: "g2", name: "ASUS ROG Strix RTX 4080 SUPER", price: 1199.99, image: "/placeholder-gpu.png", specs: "16GB GDDR6X" },
+    { id: "g1", name: "NVIDIA GeForce RTX 4090 FE", price: 1599.99, image: "/placeholder-gpu.webp", specs: "24GB GDDR6X" },
+    { id: "g2", name: "ASUS ROG Strix RTX 4080 SUPER", price: 1199.99, image: "/placeholder-gpu.webp", specs: "16GB GDDR6X" },
   ],
   Case: [
-    { id: "cs1", name: "Lian Li O11 Dynamic EVO", price: 149.99, image: "/placeholder-case.png", specs: "Mid-Tower, Dual Chamber" },
-    { id: "cs2", name: "NZXT H9 Flow", price: 159.99, image: "/placeholder-case.png", specs: "Mid-Tower, High Airflow" },
+    { id: "cs1", name: "Lian Li O11 Dynamic EVO", price: 149.99, image: "/placeholder-case.webp", specs: "Mid-Tower, Dual Chamber" },
+    { id: "cs2", name: "NZXT H9 Flow", price: 159.99, image: "/placeholder-case.webp", specs: "Mid-Tower, High Airflow" },
   ],
   "Power Supply": [
-    { id: "p1", name: "Corsair RM1000x Shift", price: 209.99, image: "/placeholder-psu.png", specs: "1000W, 80+ Gold, ATX 3.0" },
-    { id: "p2", name: "Seasonic Vertex GX-1200", price: 249.99, image: "/placeholder-psu.png", specs: "1200W, 80+ Gold, ATX 3.0" },
+    { id: "p1", name: "Corsair RM1000x Shift", price: 209.99, image: "/placeholder-psu.webp", specs: "1000W, 80+ Gold, ATX 3.0" },
+    { id: "p2", name: "Seasonic Vertex GX-1200", price: 249.99, image: "/placeholder-psu.webp", specs: "1200W, 80+ Gold, ATX 3.0" },
   ],
 };
 

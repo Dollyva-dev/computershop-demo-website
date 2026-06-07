@@ -13,7 +13,7 @@ const LAPTOP_PRODUCTS = [
     name: "Razer Blade 16 (2026) - OLED Mini-LED", 
     price: 3299.99, 
     category: "Laptops", 
-    image: "/placeholder-laptop-1.png", 
+    image: "/placeholder-laptop-1.webp", 
     inStock: true 
   },
   { 
@@ -21,7 +21,7 @@ const LAPTOP_PRODUCTS = [
     name: "ASUS ROG Zephyrus G14", 
     price: 1899.00, 
     category: "Laptops", 
-    image: "/placeholder-laptop-2.png", 
+    image: "/placeholder-laptop-2.webp", 
     inStock: true 
   },
   { 
@@ -29,7 +29,7 @@ const LAPTOP_PRODUCTS = [
     name: "Lenovo Legion Pro 7i Gen 9", 
     price: 2450.00, 
     category: "Laptops", 
-    image: "/placeholder-laptop-3.png", 
+    image: "/placeholder-laptop-3.webp", 
     inStock: false 
   },
   { 
@@ -37,7 +37,7 @@ const LAPTOP_PRODUCTS = [
     name: "Alienware m18 R2 Gaming Laptop", 
     price: 2899.99, 
     category: "Laptops", 
-    image: "/placeholder-laptop-4.png", 
+    image: "/placeholder-laptop-4.webp", 
     inStock: true 
   },
 ];

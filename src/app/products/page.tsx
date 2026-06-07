@@ -8,12 +8,12 @@ import ProductCard from "@/components/products/ProductCard";
 
 // Mock Data - Replace with actual data fetching later
 const MOCK_PRODUCTS = [
-  { id: "1", name: "ASUS ROG Strix GeForce RTX 4090", price: 1999.99, category: "Graphics Cards", image: "/placeholder-gpu.png", inStock: true },
-  { id: "2", name: "Intel Core i9-14900K Processor", price: 589.00, category: "Processors", image: "/placeholder-cpu.png", inStock: true },
-  { id: "3", name: "MSI MEG Z790 GODLIKE Motherboard", price: 1199.99, category: "Motherboards", image: "/placeholder-mobo.png", inStock: false },
-  { id: "4", name: "Corsair Dominator Titanium 64GB DDR5", price: 315.00, category: "Memory", image: "/placeholder-ram.png", inStock: true },
-  { id: "5", name: "Razer Blade 16 (2026) - OLED Mini-LED", price: 3299.99, category: "Laptops", image: "/placeholder-laptop.png", inStock: true },
-  { id: "6", name: "Samsung 990 PRO 2TB PCIe 4.0 NVMe", price: 169.99, category: "Storage", image: "/placeholder-ssd.png", inStock: true },
+  { id: "1", name: "ASUS ROG Strix GeForce RTX 4090", price: 1999.99, category: "Graphics Cards", image: "/placeholder-gpu.webp", inStock: true },
+  { id: "2", name: "Intel Core i9-14900K Processor", price: 589.00, category: "Processors", image: "/placeholder-cpu.webp", inStock: true },
+  { id: "3", name: "MSI MEG Z790 GODLIKE Motherboard", price: 1199.99, category: "Motherboards", image: "/placeholder-mobo.webp", inStock: false },
+  { id: "4", name: "Corsair Dominator Titanium 64GB DDR5", price: 315.00, category: "Memory", image: "/placeholder-ram.webp", inStock: true },
+  { id: "5", name: "Razer Blade 16 (2026) - OLED Mini-LED", price: 3299.99, category: "Laptops", image: "/placeholder-laptop.webp", inStock: true },
+  { id: "6", name: "Samsung 990 PRO 2TB PCIe 4.0 NVMe", price: 169.99, category: "Storage", image: "/placeholder-ssd.webp", inStock: true },
 ];
 
 export default function ProductsPage() {

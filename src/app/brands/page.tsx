@@ -10,14 +10,14 @@ import { ArrowUpRight } from "lucide-react";
 // Mock Data for Premium Partner Brands
 // 'hoverColor' defines the custom GSAP drop-shadow glow for each brand
 const BRAND_PARTNERS = [
-  { id: "b1", name: "NVIDIA", tagline: "The Ultimate Play", logo: "/placeholder-nvidia.png", hoverColor: "rgba(118, 185, 0, 0.4)" },
-  { id: "b2", name: "AMD", tagline: "Together We Advance", logo: "/placeholder-amd.png", hoverColor: "rgba(237, 28, 36, 0.4)" },
-  { id: "b3", name: "ASUS ROG", tagline: "For Those Who Dare", logo: "/placeholder-asus.png", hoverColor: "rgba(255, 0, 41, 0.4)" },
-  { id: "b4", name: "Corsair", tagline: "Never Compromise", logo: "/placeholder-corsair.png", hoverColor: "rgba(255, 203, 5, 0.4)" },
-  { id: "b5", name: "MSI", tagline: "True Gaming", logo: "/placeholder-msi.png", hoverColor: "rgba(226, 27, 34, 0.4)" },
-  { id: "b6", name: "Razer", tagline: "For Gamers. By Gamers.", logo: "/placeholder-razer.png", hoverColor: "rgba(68, 214, 44, 0.4)" },
-  { id: "b7", name: "Intel", tagline: "Do Something Wonderful", logo: "/placeholder-intel.png", hoverColor: "rgba(0, 104, 181, 0.4)" },
-  { id: "b8", name: "NZXT", tagline: "Build the Extraordinary", logo: "/placeholder-nzxt.png", hoverColor: "rgba(121, 98, 204, 0.4)" },
+  { id: "b1", name: "NVIDIA", tagline: "The Ultimate Play", logo: "/brand-nvidia.webp", hoverColor: "rgba(118, 185, 0, 0.4)" },
+  { id: "b2", name: "AMD", tagline: "Together We Advance", logo: "/brand-amd.webp", hoverColor: "rgba(237, 28, 36, 0.4)" },
+  { id: "b3", name: "ASUS ROG", tagline: "For Those Who Dare", logo: "/brand-asus.webp", hoverColor: "rgba(255, 0, 41, 0.4)" },
+  { id: "b4", name: "Corsair", tagline: "Never Compromise", logo: "/brand-corsair.webp", hoverColor: "rgba(255, 203, 5, 0.4)" },
+  { id: "b5", name: "MSI", tagline: "True Gaming", logo: "/brand-msi.webp", hoverColor: "rgba(226, 27, 34, 0.4)" },
+  { id: "b6", name: "Razer", tagline: "For Gamers. By Gamers.", logo: "/brand-razer.svg", hoverColor: "rgba(68, 214, 44, 0.4)" },
+  { id: "b7", name: "Intel", tagline: "Do Something Wonderful", logo: "/brand-intel.svg", hoverColor: "rgba(0, 104, 181, 0.4)" },
+  { id: "b8", name: "NZXT", tagline: "Build the Extraordinary", logo: "/brand-nzxt.svg", hoverColor: "rgba(121, 98, 204, 0.4)" },
 ];
 
 // --- Individual Brand Card Component ---

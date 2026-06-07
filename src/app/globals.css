@@ -25,6 +25,28 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+@layer base {
+  /* ── Minimal Scrollbar ── */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(100, 120, 160, 0.3);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(100, 140, 255, 0.6);
+  }
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 120, 160, 0.3) transparent;
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════
    NAV HOVER EFFECTS  —  wrapped in @layer utilities so they
    coexist correctly with Tailwind v4's cascade layers.
@@ -56,74 +78,79 @@ body {
     width: 100%;
   }
 
-  /* ── Accessories: Gold Light-Sweep Shimmer ── */
+  /* ── Accessories: Sliding Cyan → Blue Underline ── */
   .nav-accessories {
     position: relative;
     color: rgb(148 163 184);
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-    overflow: hidden;
+    transition: color 0.3s ease;
   }
   .nav-accessories::after {
     content: "";
     position: absolute;
-    top: -20%;
-    left: -80%;
-    width: 45%;
-    height: 140%;
-    background: linear-gradient(
-      105deg,
-      transparent 0%,
-      rgba(250, 204, 21, 0.55) 50%,
-      transparent 100%
-    );
-    transform: skewX(-15deg);
-    transition: left 0s ease;
-    pointer-events: none;
+    bottom: -3px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #06b6d4, #3b82f6);
+    box-shadow: 0 0 8px #06b6d4cc;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .nav-accessories:hover {
-    color: #fde68a;
-    text-shadow: 0 0 14px rgba(253, 230, 138, 0.65);
+    color: #e2e8f0;
   }
   .nav-accessories:hover::after {
-    left: 130%;
-    transition: left 0.5s ease;
+    width: 100%;
   }
 
-  /* ── Brands: Letter-Spacing Expansion + Purple Glow ── */
+  /* ── Brands: Sliding Cyan → Blue Underline ── */
   .nav-brands {
+    position: relative;
     color: rgb(148 163 184);
-    letter-spacing: 0em;
-    transition:
-      color 0.3s ease,
-      letter-spacing 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-      text-shadow 0.3s ease;
-    display: inline-block;
+    transition: color 0.3s ease;
+  }
+  .nav-brands::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #06b6d4, #3b82f6);
+    box-shadow: 0 0 8px #06b6d4cc;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .nav-brands:hover {
-    color: #c4b5fd;
-    letter-spacing: 0.1em;
-    text-shadow:
-      0 0 10px rgba(167, 139, 250, 0.8),
-      0 0 20px rgba(167, 139, 250, 0.4);
+    color: #e2e8f0;
+  }
+  .nav-brands:hover::after {
+    width: 100%;
   }
 
-  /* ── Laptops: Glitch Flicker ── */
-  @keyframes nav-glitch {
-    0%   { transform: translateX(0);    color: #e2e8f0; text-shadow: none; }
-    15%  { transform: translateX(-3px); color: #f87171; text-shadow: 2px 0 0 #34d399; }
-    30%  { transform: translateX(3px);  color: #60a5fa; text-shadow: -2px 0 0 #f87171; }
-    45%  { transform: translateX(-2px); color: #34d399; text-shadow: 2px 0 0 #60a5fa; }
-    60%  { transform: translateX(2px);  color: #e2e8f0; text-shadow: -2px 0 0 #34d399; }
-    75%  { transform: translateX(-1px); color: #f87171; text-shadow: 1px 0 0 #60a5fa; }
-    100% { transform: translateX(0);    color: #e2e8f0; text-shadow: none; }
-  }
+  /* ── Laptops: Sliding Cyan → Blue Underline ── */
   .nav-laptops {
+    position: relative;
     color: rgb(148 163 184);
-    transition: color 0.2s ease;
-    display: inline-block;
+    transition: color 0.3s ease;
+  }
+  .nav-laptops::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #06b6d4, #3b82f6);
+    box-shadow: 0 0 8px #06b6d4cc;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .nav-laptops:hover {
-    animation: nav-glitch 0.5s linear forwards;
+    color: #e2e8f0;
+  }
+  .nav-laptops:hover::after {
+    width: 100%;
   }
 
   /* ── Build My PC: Shimmer Beam Pill ── */

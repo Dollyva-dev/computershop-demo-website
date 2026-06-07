@@ -8,9 +8,9 @@ import { useGSAP } from "@gsap/react";
 
 // Placeholder image paths - add your own images to the public folder
 const SHOWCASE_IMAGES = [
-  "/Gemini_Generated_Image_.png",
-  "/hero-bg.png",
-  "/Gemini_Generated_Image_jgn0y0jgn0y0jgn0.png",
+  "/Gemini_Generated_Image_.webp",
+  "/hero-bg.webp",
+  "/Gemini_Generated_Image_jgn0y0jgn0y0jgn0.webp",
 ];
 
 export default function HeroSection() {

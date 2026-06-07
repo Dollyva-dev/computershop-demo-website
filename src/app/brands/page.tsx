@@ -98,7 +98,7 @@ export default function BrandsPage() {
   }, { scope: gridRef });
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 py-12 relative">
+    <div className="w-full max-w-7xl mx-auto px-6 pt-24 pb-12 relative">
       
       {/* Ambient background glows for the whole page */}
       <div className="absolute top-0 left-[20%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[150px] pointer-events-none -z-10" />

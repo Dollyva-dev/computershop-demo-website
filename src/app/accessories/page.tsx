@@ -71,7 +71,7 @@ export default function AccessoriesPage() {
   }, { scope: gridRef });
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 py-12">
+    <div className="w-full max-w-7xl mx-auto px-6 pt-24 pb-12">
       
       {/* Page Header */}
       <div className="mb-10">

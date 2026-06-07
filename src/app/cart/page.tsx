@@ -106,7 +106,7 @@ export default function CartPage() {
   const total = subtotal + taxes + shipping;
 
   return (
-    <div ref={containerRef} className="w-full max-w-7xl mx-auto px-6 py-12 min-h-[70vh]">
+    <div ref={containerRef} className="w-full max-w-7xl mx-auto px-6 pt-24 pb-12 min-h-[70vh]">
       
       {/* Page Header */}
       <div className="mb-10">

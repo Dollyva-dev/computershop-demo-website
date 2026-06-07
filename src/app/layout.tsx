@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className={`${inter.className} bg-[#050505] text-slate-200 antialiased min-h-screen flex flex-col`}>
         <Header />
         {/* Main content takes up available space, pushing footer down */}
-        <main className="flex-grow pt-24">
+        <main className="flex-grow">
           {children}
         </main>
         <Footer />

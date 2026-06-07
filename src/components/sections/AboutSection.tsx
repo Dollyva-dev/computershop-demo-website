@@ -1,10 +1,11 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Cpu, Layers, Wrench } from "lucide-react";
+import { Cpu, Layers, Wrench, Gauge } from "lucide-react";
 
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
@@ -94,27 +95,72 @@ export default function AboutSection() {
         <div ref={gridRef} className="relative h-[500px] w-full perspective-1000">
           <div className="absolute inset-0 grid grid-cols-2 grid-rows-3 gap-4 transform rotate-[-5deg] scale-105">
             
-            {/* Large Main Panel */}
-            <div className="grid-panel row-span-2 col-span-1 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 relative overflow-hidden group shadow-2xl">
-              <div className="absolute inset-0 bg-blue-600/10 group-hover:bg-blue-600/20 transition-colors duration-500" />
-              {/* Optional: Add a real <Image /> here when you have photos */}
-              <div className="absolute bottom-4 left-4 text-xs font-mono text-slate-400">IMG_SYS_01</div>
+            {/* Large Main Panel — Real PC Build Photo */}
+            <div className="grid-panel row-span-2 col-span-1 rounded-2xl border border-white/10 relative overflow-hidden group shadow-2xl">
+              <Image
+                src="/about-panel-main.png"
+                alt="Premium custom PC build by Dollyva"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent z-10" />
+              <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+                <span className="text-xs font-mono text-slate-300">IMG_SYS_01</span>
+              </div>
             </div>
 
-            {/* Top Right Panel */}
-            <div className="grid-panel row-span-1 col-span-1 rounded-2xl bg-gradient-to-br from-slate-900 to-[#0a0a0f] border border-white/5 relative overflow-hidden group shadow-xl">
-              <div className="absolute inset-0 bg-purple-600/10 group-hover:bg-purple-600/20 transition-colors duration-500" />
+            {/* Top Right Panel — RGB Components Photo */}
+            <div className="grid-panel row-span-1 col-span-1 rounded-2xl border border-purple-500/20 relative overflow-hidden group shadow-xl">
+              <Image
+                src="/about-panel-components.webp"
+                alt="G.Skill RGB RAM on premium motherboard"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 25vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
+              <div className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
+                <span className="text-[10px] font-mono text-purple-300">RGB · SYNC</span>
+              </div>
             </div>
 
-            {/* Middle Right Panel */}
-            <div className="grid-panel row-span-2 col-span-1 rounded-2xl bg-gradient-to-tl from-indigo-900/40 to-slate-800 border border-white/10 relative overflow-hidden group shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-              <div className="absolute bottom-4 right-4 text-xs font-mono text-indigo-400 z-20">RTX_4090_BUILD</div>
+            {/* Middle Right Panel — RTX GPU Build Photo */}
+            <div className="grid-panel row-span-2 col-span-1 rounded-2xl border border-blue-500/20 relative overflow-hidden group shadow-2xl">
+              <Image
+                src="/about-panel-gpu.webp"
+                alt="GeForce RTX GPU installed in a premium PC build"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 25vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent z-10" />
+              <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
+                <Gauge size={12} className="text-blue-400" />
+                <span className="text-[10px] font-mono text-blue-400 uppercase tracking-widest">Perf. Mode</span>
+              </div>
+              <div className="absolute bottom-4 right-4 z-20 text-right">
+                <div className="text-[10px] font-mono text-indigo-400/70 mb-0.5">FLAGSHIP</div>
+                <span className="text-xs font-mono text-indigo-300">RTX_4090_BUILD</span>
+              </div>
             </div>
 
-            {/* Bottom Left Panel */}
-            <div className="grid-panel row-span-1 col-span-1 rounded-2xl bg-gradient-to-tr from-slate-800 to-[#0a0a0f] border border-white/5 relative overflow-hidden group shadow-xl">
-              <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-colors duration-500" />
+            {/* Bottom Left Panel — Cable Management Photo */}
+            <div className="grid-panel row-span-1 col-span-1 rounded-2xl border border-cyan-500/15 relative overflow-hidden group shadow-xl">
+              <Image
+                src="/about-panel-cables.webp"
+                alt="Immaculate custom PC cable management"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 25vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
+              <div className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                <span className="text-[10px] font-mono text-cyan-300">Airflow · Optimized</span>
+              </div>
             </div>
 
           </div>

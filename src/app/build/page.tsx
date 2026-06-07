@@ -117,7 +117,7 @@ export default function BuildPage() {
   const total = subtotal + assemblyFee;
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 py-12 relative min-h-screen">
+    <div className="w-full max-w-7xl mx-auto px-6 pt-24 pb-12 relative min-h-screen">
       
       {/* Background Ambience */}
       <div className="absolute top-0 right-[10%] w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-[150px] pointer-events-none -z-10" />

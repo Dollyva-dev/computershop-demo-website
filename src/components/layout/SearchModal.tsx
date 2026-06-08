@@ -107,7 +107,7 @@ export default function SearchModal({ open, onClose }: Props) {
       {/* ── Modal panel ─────────────────────────────────────────────────────── */}
       <div
         className="fixed z-[101] top-[10vh] left-1/2 -translate-x-1/2 w-full max-w-2xl px-4"
-        style={{ animation: "searchSlideIn 0.25s cubic-bezier(.22,.68,0,1.2)" }}
+        style={{ animation: "searchSlideIn 0s cubic-bezier(.22,.68,0,1.2)" }}
       >
         <div className="rounded-2xl border border-white/10 bg-[#0d0d18]/95 backdrop-blur-2xl shadow-[0_32px_80px_rgba(0,0,0,0.8)] overflow-hidden">
 

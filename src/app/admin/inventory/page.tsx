@@ -18,11 +18,11 @@ type InventoryItem = {
 };
 
 const INITIAL_INVENTORY: InventoryItem[] = [
-  { id: "INV-001", name: "ASUS ROG Strix RTX 4090", category: "Graphics Cards", stock: 12, price: 1999.99, status: "Active", image: "/placeholder-gpu.png" },
-  { id: "INV-002", name: "Intel Core i9-14900K", category: "Processors", stock: 3, price: 589.00, status: "Active", image: "/placeholder-cpu.png" }, // Low stock example
-  { id: "INV-003", name: "Razer Blade 16 (2026)", category: "Laptops", stock: 0, price: 3299.99, status: "Out of Stock", image: "/placeholder-laptop-1.png" },
-  { id: "INV-004", name: "Wooting 60HE+ Keyboard", category: "Accessories", stock: 45, price: 174.99, status: "Active", image: "/placeholder-keyboard-1.png" },
-  { id: "INV-005", name: "Corsair RM1000x PSU", category: "Power Supply", stock: 18, price: 209.99, status: "Active", image: "/placeholder-psu.png" },
+  { id: "INV-001", name: "ASUS ROG Strix RTX 4090", category: "Graphics Cards", stock: 12, price: 1999.99, status: "Active", image: "/placeholder-gpu.webp" },
+  { id: "INV-002", name: "Intel Core i9-14900K", category: "Processors", stock: 3, price: 589.00, status: "Active", image: "/placeholder-cpu.webp" }, // Low stock example
+  { id: "INV-003", name: "Razer Blade 16 (2026)", category: "Laptops", stock: 0, price: 3299.99, status: "Out of Stock", image: "/placeholder-laptop-1.webp" },
+  { id: "INV-004", name: "Wooting 60HE+ Keyboard", category: "Accessories", stock: 45, price: 174.99, status: "Active", image: "/placeholder-keyboard-1.webp" },
+  { id: "INV-005", name: "Corsair RM1000x PSU", category: "Power Supply", stock: 18, price: 209.99, status: "Active", image: "/placeholder-psu.webp" },
 ];
 
 export default function InventoryPage() {

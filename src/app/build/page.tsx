@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { Zap, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { Zap, ShieldCheck, CheckCircle2, Download } from "lucide-react"; // <-- Added Download
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import jsPDF from "jspdf";                     // <-- Added
+import autoTable from "jspdf-autotable";       // <-- Added
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP);
@@ -885,12 +887,55 @@ function PCCaseDiagram({ hoveredZone, selectedParts, onEnter, onLeave, theme }: 
 // ─────────────────────────────────────────────────────────────
 // LIVE INVOICE
 // ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// LIVE INVOICE
+// ─────────────────────────────────────────────────────────────
 function LiveInvoice({ selectedParts, chipset, theme }: {
   selectedParts: Partial<Record<Category, Part>>;
   chipset: string;
   theme: { accent: string; glow: string; badge: string };
 }) {
   const subtotal = Object.values(selectedParts).reduce((s, p) => s + p!.price, 0);
+
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    
+    // Header
+    doc.setFontSize(20);
+    doc.text("PC Build Invoice", 14, 22);
+    
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    doc.text(`Platform: ${chipset}`, 14, 30);
+    doc.text(`Parts Configured: ${Object.keys(selectedParts).length} / 12`, 14, 36);
+
+    // Table Data Mapping
+    const tableData = Object.entries(selectedParts).map(([cat, part]) => [
+      cat,
+      part!.name,
+      `$${part!.price.toFixed(2)}`
+    ]);
+
+    // Generate Table
+    autoTable(doc, {
+      startY: 45,
+      head: [["Category", "Component", "Price"]],
+      body: tableData,
+      foot: [["", "Estimated Total", `$${subtotal.toFixed(2)}`]],
+      theme: "grid",
+      headStyles: { fillColor: [30, 30, 35] },
+      footStyles: { fillColor: [20, 20, 25], textColor: [255, 255, 255], fontStyle: "bold" },
+      styles: { fontSize: 10, cellPadding: 5 },
+      columnStyles: {
+        0: { cellWidth: 45, fontStyle: "bold" },
+        1: { cellWidth: "auto" },
+        2: { cellWidth: 35, halign: "right" }
+      }
+    });
+
+    // Save File
+    doc.save(`PC-Build-Invoice-${chipset}.pdf`);
+  };
 
   return (
     <div className="w-full lg:w-[340px] shrink-0 lg:sticky lg:top-24 h-fit z-40">
@@ -954,11 +999,27 @@ function LiveInvoice({ selectedParts, chipset, theme }: {
           </span>
         </div>
 
-        <button disabled={subtotal === 0}
-          className="w-full py-3.5 font-black text-[11px] rounded-xl transition-all uppercase tracking-[0.2em] disabled:opacity-30 disabled:cursor-not-allowed"
-          style={subtotal > 0 ? { background: theme.accent, color: "#000" } : { background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.25)" }}>
-          Proceed to Order
-        </button>
+        {/* Action Buttons */}
+        <div className="flex flex-col gap-3">
+          <button 
+            onClick={handleDownloadPDF}
+            disabled={subtotal === 0}
+            className="w-full py-3 flex items-center justify-center gap-2 font-black text-[10px] rounded-xl transition-all uppercase tracking-[0.15em] disabled:opacity-30 disabled:cursor-not-allowed border"
+            style={
+              subtotal > 0 
+                ? { borderColor: `${theme.accent}55`, color: theme.accent, background: `${theme.accent}11` } 
+                : { borderColor: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.25)", background: "transparent" }
+            }>
+            <Download size={14} /> Download PDF
+          </button>
+
+          <button disabled={subtotal === 0}
+            className="w-full py-3.5 font-black text-[11px] rounded-xl transition-all uppercase tracking-[0.2em] disabled:opacity-30 disabled:cursor-not-allowed"
+            style={subtotal > 0 ? { background: theme.accent, color: "#000" } : { background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.25)" }}>
+            Proceed to Order
+          </button>
+        </div>
+
       </div>
     </div>
   );

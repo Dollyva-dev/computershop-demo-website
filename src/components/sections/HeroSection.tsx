@@ -19,11 +19,11 @@ export default function HeroSection() {
 
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // 2-Second Image Rotation Timer
+  // 5-Second Image Rotation Timer
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((current) => (current + 1) % SHOWCASE_IMAGES.length);
-    }, 2000);
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 

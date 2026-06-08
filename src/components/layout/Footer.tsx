@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -63,6 +63,16 @@ const productLinks = [
   { label: "Parts & Upgrades", href: "/parts" },
 ];
 
+// Define a type for the particles so TypeScript doesn't complain
+interface ParticleData {
+  id: number;
+  left: string;
+  top: string;
+  size: string;
+  delay: string;
+  duration: string;
+}
+
 export default function Footer() {
   const footerRef = useRef<HTMLElement>(null);
   const orb1Ref = useRef<HTMLDivElement>(null);
@@ -70,6 +80,9 @@ export default function Footer() {
   const gridRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLDivElement>(null);
+
+  // 1. Initialize with an empty array to prevent hydration mismatch
+  const [particles, setParticles] = useState<ParticleData[]>([]);
 
   useGSAP(() => {
     const ctx = gsap.context(() => {
@@ -145,15 +158,18 @@ export default function Footer() {
     return () => ctx.revert();
   }, []);
 
-  // Floating particle dots
-  const particles = Array.from({ length: 18 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`,
-    size: `${Math.random() * 3 + 1}px`,
-    delay: `${Math.random() * 4}s`,
-    duration: `${Math.random() * 4 + 4}s`,
-  }));
+  // 2. Generate floating particles only on the client side after mount
+  useEffect(() => {
+    const generatedParticles = Array.from({ length: 18 }, (_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      size: `${Math.random() * 3 + 1}px`,
+      delay: `${Math.random() * 4}s`,
+      duration: `${Math.random() * 4 + 4}s`,
+    }));
+    setParticles(generatedParticles);
+  }, []);
 
   return (
     <footer

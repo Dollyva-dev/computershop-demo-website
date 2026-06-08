@@ -23,7 +23,7 @@ const INITIAL_CART: CartItem[] = [
     name: "ASUS ROG Strix GeForce RTX 4090",
     price: 1999.99,
     quantity: 1,
-    image: "/placeholder-gpu.png",
+    image: "/placeholder-gpu (2).webp",
     category: "Graphics Cards",
   },
   {
@@ -31,7 +31,7 @@ const INITIAL_CART: CartItem[] = [
     name: "Custom Dollyva Rig - 'The Behemoth'",
     price: 4250.00,
     quantity: 1,
-    image: "/placeholder-case.png",
+    image: "/placeholder-case (2).webp",
     category: "Custom Build",
   },
   {
@@ -39,7 +39,7 @@ const INITIAL_CART: CartItem[] = [
     name: "Wooting 60HE+ Analog Keyboard",
     price: 174.99,
     quantity: 2,
-    image: "/placeholder-keyboard-1.png",
+    image: "/placeholder-keyboard-1 (2).webp",
     category: "Keyboards",
   }
 ];

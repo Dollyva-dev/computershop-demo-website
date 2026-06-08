@@ -17,23 +17,24 @@ export default function AdminDashboard() {
   }, { scope: containerRef });
 
   return (
-    <div ref={containerRef} className="p-8 pt-24 max-w-7xl mx-auto">
+    <div ref={containerRef} className="p-4 md:p-8 pt-24 max-w-7xl mx-auto">
       
-      <div className="flex items-center justify-between mb-8 admin-stagger opacity-0">
+      {/* Header - Stacks on mobile, inline on sm/desktop */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 mb-8 admin-stagger opacity-0">
         <div>
           <h1 className="text-2xl font-bold text-white mb-1">Dashboard Overview</h1>
           <p className="text-sm text-slate-400">Welcome back. Here is what's happening at Dollyva today.</p>
         </div>
-        <div className="text-sm text-slate-500 bg-white/5 px-4 py-2 rounded-lg border border-white/5">
+        <div className="text-sm text-slate-500 bg-white/5 px-4 py-2 rounded-lg border border-white/5 w-full sm:w-auto text-center sm:text-left">
           System Status: <span className="text-green-400 font-medium">Online</span>
         </div>
       </div>
 
       {/* Top Stats Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
         
         {/* Stat Card 1 */}
-        <div className="admin-stagger opacity-0 bg-[#0b0b12] border border-white/5 p-6 rounded-2xl flex items-start justify-between">
+        <div className="admin-stagger opacity-0 bg-[#0b0b12] border border-white/5 p-5 md:p-6 rounded-2xl flex items-start justify-between">
           <div>
             <p className="text-sm text-slate-400 font-medium mb-1">Total Revenue</p>
             <h3 className="text-2xl font-bold text-white">$24,590.00</h3>
@@ -45,7 +46,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Stat Card 2 */}
-        <div className="admin-stagger opacity-0 bg-[#0b0b12] border border-white/5 p-6 rounded-2xl flex items-start justify-between">
+        <div className="admin-stagger opacity-0 bg-[#0b0b12] border border-white/5 p-5 md:p-6 rounded-2xl flex items-start justify-between">
           <div>
             <p className="text-sm text-slate-400 font-medium mb-1">Active Orders</p>
             <h3 className="text-2xl font-bold text-white">42</h3>
@@ -57,7 +58,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Stat Card 3 */}
-        <div className="admin-stagger opacity-0 bg-[#0b0b12] border border-white/5 p-6 rounded-2xl flex items-start justify-between">
+        <div className="admin-stagger opacity-0 bg-[#0b0b12] border border-white/5 p-5 md:p-6 rounded-2xl flex items-start justify-between">
           <div>
             <p className="text-sm text-slate-400 font-medium mb-1">Total Products</p>
             <h3 className="text-2xl font-bold text-white">1,204</h3>
@@ -69,7 +70,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Stat Card 4 (Alert) */}
-        <div className="admin-stagger opacity-0 bg-red-500/5 border border-red-500/20 p-6 rounded-2xl flex items-start justify-between">
+        <div className="admin-stagger opacity-0 bg-red-500/5 border border-red-500/20 p-5 md:p-6 rounded-2xl flex items-start justify-between">
           <div>
             <p className="text-sm text-red-400/80 font-medium mb-1">Low Stock Alerts</p>
             <h3 className="text-2xl font-bold text-red-400">8</h3>
@@ -83,16 +84,17 @@ export default function AdminDashboard() {
       </div>
 
       {/* Main Content Area */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         
         {/* Recent Orders Table */}
         <div className="admin-stagger opacity-0 lg:col-span-2 bg-[#0b0b12] border border-white/5 rounded-2xl overflow-hidden">
-          <div className="p-6 border-b border-white/5 flex justify-between items-center">
+          <div className="p-5 md:p-6 border-b border-white/5 flex justify-between items-center">
             <h2 className="text-lg font-bold text-white">Recent Orders</h2>
-            <button className="text-sm text-blue-400 hover:text-blue-300">View All</button>
+            <button className="text-sm text-blue-400 hover:text-blue-300 transition-colors">View All</button>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-400">
+            {/* Added min-w-[600px] to force horizontal scrolling on mobile instead of crushing columns */}
+            <table className="w-full text-left text-sm text-slate-400 min-w-[600px]">
               <thead className="bg-white/5 text-slate-300">
                 <tr>
                   <th className="px-6 py-4 font-medium">Order ID</th>
@@ -126,7 +128,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Actions / Activity Feed */}
-        <div className="admin-stagger opacity-0 bg-[#0b0b12] border border-white/5 rounded-2xl p-6">
+        <div className="admin-stagger opacity-0 bg-[#0b0b12] border border-white/5 rounded-2xl p-5 md:p-6">
           <h2 className="text-lg font-bold text-white mb-6">Action Needed</h2>
           
           <div className="space-y-4">

@@ -180,47 +180,47 @@ export default function InteractiveBuildPage() {
   // ── CHIPSET SELECTION SCREEN ──────────────────────────────
   if (!chipset) {
     return (
-      <div className="fixed inset-0 z-50 flex w-full h-screen bg-[#030305] overflow-hidden">
+      <div className="fixed inset-0 z-50 flex flex-col md:flex-row w-full h-screen bg-[#030305] overflow-hidden">
         <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.025]"
           style={{ backgroundImage: "repeating-linear-gradient(0deg,transparent,transparent 2px,#fff 2px,#fff 3px)" }} />
 
         {/* AMD */}
         <div onClick={() => setChipset("AMD")}
-          className="w-1/2 h-full relative cursor-pointer group border-r border-white/5 overflow-hidden flex items-center justify-center">
+          className="w-full h-1/2 md:w-1/2 md:h-full relative cursor-pointer group border-b md:border-b-0 md:border-r border-white/5 overflow-hidden flex items-center justify-center">
           <div className="pointer-events-none absolute inset-0 opacity-[0.035]"
             style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.6) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.6) 1px,transparent 1px)", backgroundSize: "40px 40px" }} />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-red-900/0 to-red-900/0 group-hover:from-red-900/20 group-hover:to-transparent transition-all duration-700 z-10" />
           <div className="z-20 text-center transform group-hover:scale-105 transition-all duration-500 select-none">
             <div className="mb-3 inline-block px-3 py-1 border border-red-500/30 bg-red-500/5 rounded-full text-red-400 text-[9px] font-bold tracking-[0.3em] uppercase">Platform Select</div>
-            <h2 className="text-8xl font-black text-white mb-2 tracking-tighter" style={{ textShadow: "0 0 80px rgba(239,68,68,0.5)" }}>AMD</h2>
-            <p className="text-red-400/70 font-semibold tracking-[0.2em] uppercase text-sm">Team Red · Ryzen Platform</p>
+            <h2 className="text-6xl md:text-8xl font-black text-white mb-2 tracking-tighter" style={{ textShadow: "0 0 80px rgba(239,68,68,0.5)" }}>AMD</h2>
+            <p className="text-red-400/70 font-semibold tracking-[0.2em] uppercase text-xs md:text-sm">Team Red · Ryzen Platform</p>
             <div className="mt-5 mx-auto w-16 h-px bg-gradient-to-r from-transparent via-red-500 to-transparent" />
           </div>
-          <div className="pointer-events-none absolute top-8 left-8 w-8 h-8 border-t-2 border-l-2 border-red-500/20 group-hover:border-red-500/60 transition-colors duration-500" />
-          <div className="pointer-events-none absolute top-8 right-8 w-8 h-8 border-t-2 border-r-2 border-red-500/20 group-hover:border-red-500/60 transition-colors duration-500" />
-          <div className="pointer-events-none absolute bottom-8 left-8 w-8 h-8 border-b-2 border-l-2 border-red-500/20 group-hover:border-red-500/60 transition-colors duration-500" />
-          <div className="pointer-events-none absolute bottom-8 right-8 w-8 h-8 border-b-2 border-r-2 border-red-500/20 group-hover:border-red-500/60 transition-colors duration-500" />
+          <div className="pointer-events-none absolute top-4 md:top-8 left-4 md:left-8 w-8 h-8 border-t-2 border-l-2 border-red-500/20 group-hover:border-red-500/60 transition-colors duration-500" />
+          <div className="pointer-events-none absolute top-4 md:top-8 right-4 md:right-8 w-8 h-8 border-t-2 border-r-2 border-red-500/20 group-hover:border-red-500/60 transition-colors duration-500" />
+          <div className="pointer-events-none absolute bottom-4 md:bottom-8 left-4 md:left-8 w-8 h-8 border-b-2 border-l-2 border-red-500/20 group-hover:border-red-500/60 transition-colors duration-500" />
+          <div className="pointer-events-none absolute bottom-4 md:bottom-8 right-4 md:right-8 w-8 h-8 border-b-2 border-r-2 border-red-500/20 group-hover:border-red-500/60 transition-colors duration-500" />
         </div>
 
         {/* Intel */}
         <div onClick={() => setChipset("Intel")}
-          className="w-1/2 h-full relative cursor-pointer group overflow-hidden flex items-center justify-center">
+          className="w-full h-1/2 md:w-1/2 md:h-full relative cursor-pointer group overflow-hidden flex items-center justify-center">
           <div className="pointer-events-none absolute inset-0 opacity-[0.035]"
             style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.6) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.6) 1px,transparent 1px)", backgroundSize: "40px 40px" }} />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-bl from-blue-900/0 to-blue-900/0 group-hover:from-blue-900/20 group-hover:to-transparent transition-all duration-700 z-10" />
           <div className="z-20 text-center transform group-hover:scale-105 transition-all duration-500 select-none">
             <div className="mb-3 inline-block px-3 py-1 border border-blue-500/30 bg-blue-500/5 rounded-full text-blue-400 text-[9px] font-bold tracking-[0.3em] uppercase">Platform Select</div>
-            <h2 className="text-8xl font-black text-white mb-2 tracking-tighter" style={{ textShadow: "0 0 80px rgba(59,130,246,0.5)" }}>Intel</h2>
-            <p className="text-blue-400/70 font-semibold tracking-[0.2em] uppercase text-sm">Team Blue · Core Platform</p>
+            <h2 className="text-6xl md:text-8xl font-black text-white mb-2 tracking-tighter" style={{ textShadow: "0 0 80px rgba(59,130,246,0.5)" }}>Intel</h2>
+            <p className="text-blue-400/70 font-semibold tracking-[0.2em] uppercase text-xs md:text-sm">Team Blue · Core Platform</p>
             <div className="mt-5 mx-auto w-16 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent" />
           </div>
-          <div className="pointer-events-none absolute top-8 left-8 w-8 h-8 border-t-2 border-l-2 border-blue-500/20 group-hover:border-blue-500/60 transition-colors duration-500" />
-          <div className="pointer-events-none absolute top-8 right-8 w-8 h-8 border-t-2 border-r-2 border-blue-500/20 group-hover:border-blue-500/60 transition-colors duration-500" />
-          <div className="pointer-events-none absolute bottom-8 left-8 w-8 h-8 border-b-2 border-l-2 border-blue-500/20 group-hover:border-blue-500/60 transition-colors duration-500" />
-          <div className="pointer-events-none absolute bottom-8 right-8 w-8 h-8 border-b-2 border-r-2 border-blue-500/20 group-hover:border-blue-500/60 transition-colors duration-500" />
+          <div className="pointer-events-none absolute top-4 md:top-8 left-4 md:left-8 w-8 h-8 border-t-2 border-l-2 border-blue-500/20 group-hover:border-blue-500/60 transition-colors duration-500" />
+          <div className="pointer-events-none absolute top-4 md:top-8 right-4 md:right-8 w-8 h-8 border-t-2 border-r-2 border-blue-500/20 group-hover:border-blue-500/60 transition-colors duration-500" />
+          <div className="pointer-events-none absolute bottom-4 md:bottom-8 left-4 md:left-8 w-8 h-8 border-b-2 border-l-2 border-blue-500/20 group-hover:border-blue-500/60 transition-colors duration-500" />
+          <div className="pointer-events-none absolute bottom-4 md:bottom-8 right-4 md:right-8 w-8 h-8 border-b-2 border-r-2 border-blue-500/20 group-hover:border-blue-500/60 transition-colors duration-500" />
         </div>
 
-        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-[#030305] border border-white/10 rounded-full flex items-center justify-center font-black text-slate-500 text-xs">
+        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-[#030305] border border-white/10 rounded-full flex items-center justify-center font-black text-slate-500 text-xs shadow-2xl">
           VS
         </div>
       </div>
@@ -230,9 +230,9 @@ export default function InteractiveBuildPage() {
   const theme = CHIPSET_THEME[chipset];
 
   return (
-    <div className="w-full max-w-[1700px] mx-auto px-4 py-6 relative min-h-screen flex gap-6">
+    <div className="w-full max-w-[1700px] mx-auto px-4 py-6 relative min-h-screen flex flex-col lg:flex-row gap-6">
       {/* LEFT: Canvas */}
-      <div className="flex-1 relative bg-[#03030a] border border-white/5 rounded-3xl flex flex-col items-center justify-center p-6 min-h-[720px]">
+      <div className="flex-1 relative bg-[#03030a] border border-white/5 rounded-3xl flex flex-col items-center justify-center p-4 lg:p-6 min-h-[500px] lg:min-h-[720px] overflow-hidden lg:overflow-visible">
         {/* Decorative overlays — pointer-events-none so they never block zone clicks */}
         <div className="pointer-events-none absolute inset-0 opacity-[0.02] rounded-3xl"
           style={{ backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)", backgroundSize: "28px 28px" }} />
@@ -242,17 +242,21 @@ export default function InteractiveBuildPage() {
           style={{ background: `radial-gradient(ellipse at top, ${theme.glow}, transparent 70%)` }} />
 
         {/* Header */}
-        <div className="pointer-events-none absolute top-18 left-0 right-0 flex items-center justify-between px-6 py-4 border-b border-white/[0.04] z-30">
-          <button className="pointer-events-auto text-[10px] font-bold px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-md transition-colors text-slate-400 tracking-widest uppercase"
+        <div className="pointer-events-none absolute top-4 lg:top-18 left-0 right-0 flex flex-col md:flex-row items-center justify-between px-4 lg:px-6 py-4 border-b border-white/[0.04] z-30 gap-y-3">
+          <button className="pointer-events-auto text-[10px] font-bold px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-md transition-colors text-slate-400 tracking-widest uppercase w-full md:w-auto text-center"
             onClick={() => { setChipset(null); setSelectedParts({}); setHoveredZone(null); setPopupCat(null); }}>
             ← Change Platform ({chipset})
           </button>
-          <span className="text-[9px] text-white/15 font-bold tracking-[0.35em] uppercase">PC Builder · 3D Configurator</span>
-          <span className={`px-3 py-1 rounded-full text-[10px] font-black border ${theme.badge}`}>{chipset} Platform</span>
+          <span className="text-[9px] text-white/15 font-bold tracking-[0.35em] uppercase text-center w-full md:w-auto">
+            PC Builder <span className="hidden md:inline">· 3D Configurator</span>
+          </span>
+          <span className={`px-3 py-1 rounded-full text-[10px] font-black border ${theme.badge} hidden md:inline-block`}>
+            {chipset} Platform
+          </span>
         </div>
 
         {/* 3D Case Diagram */}
-        <div className="mt-8 w-full" style={{ maxWidth: "min(820px, 100%)" }}>
+        <div className="mt-20 md:mt-8 w-full" style={{ maxWidth: "min(820px, 100%)" }}>
           <PCCaseDiagram
             hoveredZone={hoveredZone}
             selectedParts={selectedParts}
@@ -262,7 +266,7 @@ export default function InteractiveBuildPage() {
           />
         </div>
 
-        <p className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 text-[9px] text-white/15 tracking-widest uppercase font-medium whitespace-nowrap">
+        <p className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 text-[9px] text-white/15 tracking-widest uppercase font-medium whitespace-nowrap hidden md:block">
           Hover any zone to configure · {Object.keys(selectedParts).length} / 12 selected
         </p>
       </div>
@@ -316,17 +320,27 @@ function HoverPopup({ cat, pos, chipset, theme, selectedParts, onSelect, onEnter
   );
 
   const POPUP_W = 285;
-
-  // Smart positioning: flip left if near right edge, flip up if near bottom
   const vw = typeof window !== "undefined" ? window.innerWidth : 1400;
   const vh = typeof window !== "undefined" ? window.innerHeight : 900;
   const APPROX_H = Math.min(parts.length * 92 + 70, 420);
 
   let left = pos.x + 18;
   let top = pos.y - 30;
-  if (left + POPUP_W > vw - 16) left = pos.x - POPUP_W - 18;
-  if (top + APPROX_H > vh - 16) top = vh - APPROX_H - 16;
-  if (top < 70) top = 70;
+
+  // Mobile & Desktop bounds logic
+  if (vw < 1024) { 
+    // Mobile/Tablet bounds - pop up slightly below/centered around the tap area
+    left = Math.max(10, Math.min(pos.x - (POPUP_W / 2), vw - POPUP_W - 10));
+    top = pos.y + 20; 
+    if (top + APPROX_H > vh - 20) {
+      top = Math.max(70, pos.y - APPROX_H - 20); // flip above if clipping bottom
+    }
+  } else {
+    // Desktop Original Logic
+    if (left + POPUP_W > vw - 16) left = pos.x - POPUP_W - 18;
+    if (top + APPROX_H > vh - 16) top = vh - APPROX_H - 16;
+    if (top < 70) top = 70;
+  }
 
   const accent = theme.accent;
 
@@ -790,7 +804,7 @@ function PCCaseDiagram({ hoveredZone, selectedParts, onEnter, onLeave, theme }: 
           ))}
           {([
             ["Front Fans",GX2+RDX+5,GY1+192,GX2+RDX-5,GY1+192],
-           
+            
           ] as [string,number,number,number,number][]).map(([lbl,tx,ty,ex,ey],i) => (
             <g key={i}>
               <text x={tx+5} y={ty+3}>{lbl}</text>
@@ -879,7 +893,7 @@ function LiveInvoice({ selectedParts, chipset, theme }: {
   const subtotal = Object.values(selectedParts).reduce((s, p) => s + p!.price, 0);
 
   return (
-    <div className="w-[340px] shrink-0 sticky top-24 h-fit z-40">
+    <div className="w-full lg:w-[340px] shrink-0 lg:sticky lg:top-24 h-fit z-40">
       <div id="invoice-sidebar"
         className="backdrop-blur-xl border rounded-3xl p-7 shadow-2xl"
         style={{ background: "rgba(5,5,14,0.93)", borderColor: `${theme.accent}22` }}>
@@ -920,7 +934,7 @@ function LiveInvoice({ selectedParts, chipset, theme }: {
             <div className="h-full flex flex-col items-center justify-center text-slate-600 pt-16">
               <ShieldCheck size={26} className="mb-3 opacity-30" />
               <p className="text-[10px] text-center px-4 leading-relaxed">
-                Hover any highlighted zone on the 3D case to configure your build.
+                Tap/Hover any highlighted zone on the 3D case to configure your build.
               </p>
             </div>
           )}

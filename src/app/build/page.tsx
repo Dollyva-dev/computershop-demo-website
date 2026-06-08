@@ -258,14 +258,22 @@ export default function InteractiveBuildPage() {
         </div>
 
         {/* 3D Case Diagram */}
-        <div className="mt-20 md:mt-8 w-full" style={{ maxWidth: "min(820px, 100%)" }}>
-          <PCCaseDiagram
-            hoveredZone={hoveredZone}
-            selectedParts={selectedParts}
-            onEnter={openPopup}
-            onLeave={beginClose}
-            theme={theme}
-          />
+        {/* 3D Case Diagram */}
+        <div className="mt-20 md:mt-8 w-full overflow-x-auto touch-pan-x pb-4" style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
+          {/* Inline style to hide scrollbar for webkit browsers while keeping swipe functionality */}
+          <style dangerouslySetInnerHTML={{ __html: `
+            .touch-pan-x::-webkit-scrollbar { display: none; }
+          `}} />
+          
+          <div className="mx-auto" style={{ minWidth: "680px", maxWidth: "820px" }}>
+            <PCCaseDiagram
+              hoveredZone={hoveredZone}
+              selectedParts={selectedParts}
+              onEnter={openPopup}
+              onLeave={beginClose}
+              theme={theme}
+            />
+          </div>
         </div>
 
         <p className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 text-[9px] text-white/15 tracking-widest uppercase font-medium whitespace-nowrap hidden md:block">

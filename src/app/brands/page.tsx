@@ -54,7 +54,7 @@ function BrandCard({ brand }: { brand: typeof BRAND_PARTNERS[0] }) {
       ref={cardRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="group relative flex flex-col items-center justify-center bg-[#0b0b12] border border-white/5 rounded-2xl p-8 backdrop-blur-md transition-colors overflow-hidden h-64"
+      className="group relative flex flex-col items-center justify-center bg-[#0b0b12] border border-white/5 rounded-xl md:rounded-2xl p-4 md:p-8 backdrop-blur-md transition-colors overflow-hidden h-40 md:h-64"
     >
       {/* Decorative ambient background blur inside the card */}
       <div 
@@ -63,7 +63,7 @@ function BrandCard({ brand }: { brand: typeof BRAND_PARTNERS[0] }) {
       />
 
       {/* Brand Logo Container */}
-      <div className="relative w-32 h-20 mb-6 flex items-center justify-center">
+      <div className="relative w-20 h-12 md:w-32 md:h-20 mb-3 md:mb-6 flex items-center justify-center shrink-0">
         <Image 
           src={brand.logo} 
           alt={`${brand.name} Logo`} 
@@ -72,11 +72,15 @@ function BrandCard({ brand }: { brand: typeof BRAND_PARTNERS[0] }) {
         />
       </div>
 
-      <h3 className="text-white font-bold text-lg tracking-wide mb-1 z-10">{brand.name}</h3>
-      <p className="text-xs text-slate-400 font-medium tracking-wider uppercase z-10">{brand.tagline}</p>
+      <h3 className="text-white font-bold text-sm md:text-lg tracking-wide mb-0.5 md:mb-1 z-10 text-center leading-tight">
+        {brand.name}
+      </h3>
+      <p className="text-[9px] md:text-xs text-slate-400 font-medium tracking-wider uppercase z-10 text-center px-1 line-clamp-2 md:line-clamp-none leading-tight">
+        {brand.tagline}
+      </p>
       
       {/* Small floating indicator to show it's a link */}
-      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transform translate-x-2 -translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 text-white/50">
+      <div className="absolute top-2 right-2 md:top-4 md:right-4 opacity-0 group-hover:opacity-100 transform translate-x-2 -translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 text-white/50 scale-75 md:scale-100 origin-top-right">
         <ArrowUpRight size={20} />
       </div>
     </Link>
@@ -98,17 +102,17 @@ export default function BrandsPage() {
   }, { scope: gridRef });
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 pt-24 pb-12 relative">
+    <div className="w-full max-w-7xl mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-8 md:pb-12 relative">
       
       {/* Ambient background glows for the whole page */}
-      <div className="absolute top-0 left-[20%] w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[150px] pointer-events-none -z-10" />
+      <div className="absolute top-0 left-[20%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-600/5 rounded-full blur-[100px] md:blur-[150px] pointer-events-none -z-10" />
       
       {/* Page Header */}
-      <div className="mb-16 text-center max-w-2xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight mb-4">
+      <div className="mb-8 md:mb-16 text-center max-w-2xl mx-auto px-2 md:px-0">
+        <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight mb-2 md:mb-4">
           Elite Partners
         </h1>
-        <p className="text-lg text-slate-400">
+        <p className="text-sm md:text-lg text-slate-400 leading-relaxed">
           We only build with the best. Explore our curated selection of tier-one hardware manufacturers powering the world's most advanced systems.
         </p>
       </div>
@@ -116,7 +120,7 @@ export default function BrandsPage() {
       {/* Grid Container */}
       <div 
         ref={gridRef} 
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"
       >
         {BRAND_PARTNERS.map((brand) => (
           <div key={brand.id} className="brand-card-stagger opacity-0">

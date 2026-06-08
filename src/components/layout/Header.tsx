@@ -12,7 +12,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full z-50 bg-[#0a0a0f] border-b border-white/[0.06] h-20">
+      <header className="fixed top-0 left-0 w-full z-50 bg-[#0a0a0f] border-b border-white/[0.06] h-15">
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex items-center justify-between">
 
           {/* Brand Logo & Name */}
@@ -25,7 +25,8 @@ export default function Header() {
                 className="object-contain transition-transform group-hover:scale-110"
               />
             </div>
-            <span className="font-bold text-xl tracking-wide text-white whitespace-nowrap">
+            {/* Added "hidden md:block" here to hide on mobile and show on desktop */}
+            <span className="hidden md:block font-bold text-xl tracking-wide text-white whitespace-nowrap">
               Dollyva <span className="font-light text-slate-400">computers</span>
             </span>
           </Link>

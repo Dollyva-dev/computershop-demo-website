@@ -17,6 +17,12 @@ export default function AdminSidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
+  // --- LOGOUT FUNCTION ---
+  const handleLogout = () => {
+    sessionStorage.removeItem("dollyva_admin_auth");
+    window.location.reload(); // Refreshes the page to re-trigger the AuthGuard
+  };
+
   return (
     <>
       {/* Mobile Header Bar */}
@@ -73,7 +79,10 @@ export default function AdminSidebar() {
 
         {/* Logout */}
         <div className="p-4 border-t border-white/5 bg-[#0a0a0f] shrink-0">
-          <button className="flex items-center gap-3 px-4 py-3 w-full text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all text-sm font-medium">
+          <button 
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-4 py-3 w-full text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all text-sm font-medium"
+          >
             <LogOut size={18} />
             Logout
           </button>

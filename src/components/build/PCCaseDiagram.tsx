@@ -5,6 +5,7 @@ interface ZoneProps {
   cat: Category;
   x: number; y: number; w: number; h: number;
   label: string;
+  labelPos?: string;
   hoveredZone: Category | null;
   selectedParts: Partial<Record<Category, Part>>;
   onEnter: (cat: Category) => void;

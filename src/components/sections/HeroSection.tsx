@@ -6,62 +6,98 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
-// Placeholder image paths - add your own images to the public folder
 const SHOWCASE_IMAGES = [
-  "/Gemini_Generated_Image_.webp",
   "/hero-bg.webp",
+  "/Gemini_Generated_Image_.webp",
   "/Gemini_Generated_Image_jgn0y0jgn0y0jgn0.webp",
 ];
 
 export default function HeroSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-
+  const containerRef = useRef<HTMLElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  
+  // We need to track the previous index to keep the old image visible during the transition
+  const prevIndexRef = useRef(0);
 
-  // 5-Second Image Rotation Timer
+  // Auto-slide timer
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((current) => (current + 1) % SHOWCASE_IMAGES.length);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
+  // Initial Entrance Animation
   useGSAP(
     () => {
-      // Initial Entrance Animations (Text & Buttons)
       const tl = gsap.timeline();
+
+      // Animate the main big text up from a hidden mask
       tl.fromTo(
-        ".reveal-text",
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: "power3.out" }
+        ".hero-title-line",
+        { y: "100%" },
+        { y: "0%", duration: 1.2, stagger: 0.1, ease: "power4.out", delay: 0.2 }
       );
+
+      // Fade in the top elements and button
       tl.fromTo(
-        ".reveal-btn",
-        { scale: 0.9, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)" },
-        "-=0.4"
+        ".hero-ui",
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 1, stagger: 0.1, ease: "power2.out" },
+        "-=0.8"
       );
     },
     { scope: containerRef }
   );
 
-  // GSAP Crossfade Animation for fullscreen background images
+  // Advanced Clip-Path Image Transitions
   useGSAP(
     () => {
-      gsap.to(".bg-slide-image", {
-        opacity: 0,
-        scale: 1.05,
-        duration: 1,
-        ease: "power2.inOut",
+      const images = gsap.utils.toArray(".slide-image");
+      const prevIndex = prevIndexRef.current;
+
+      // Always reset and animate the progress bar
+      gsap.fromTo(
+        ".progress-bar-fill",
+        { scaleX: 0 },
+        { scaleX: 1, duration: 6, ease: "none", transformOrigin: "left" }
+      );
+
+      // Skip the image transition on the very first render
+      if (activeIndex === prevIndex) return;
+
+      // 1. Prepare the NEW image (hidden at the bottom, placed on top layer)
+      gsap.set(images[activeIndex] as Element, { 
+        zIndex: 2, 
+        clipPath: "inset(100% 0 0 0)", 
+        scale: 1.1 
       });
 
-      gsap.to(`.bg-slide-image[data-index="${activeIndex}"]`, {
-        opacity: 1,
-        scale: 1,
-        duration: 1,
-        ease: "power2.out",
-        overwrite: "auto",
+      // 2. Ensure the OLD image stays fully visible just behind it
+      gsap.set(images[prevIndex] as Element, { 
+        zIndex: 1, 
+        clipPath: "inset(0% 0 0 0)" 
+      });
+
+      // 3. Keep all OTHER images completely hidden at the back
+      images.forEach((img, i) => {
+        if (i !== activeIndex && i !== prevIndex) {
+          gsap.set(img as Element, { zIndex: 0, clipPath: "inset(100% 0 0 0)" });
+        }
+      });
+
+      // 4. Animate the NEW image wiping up over the OLD image
+      gsap.to(images[activeIndex] as Element, { 
+        clipPath: "inset(0% 0 0 0)", 
+        scale: 1, 
+        duration: 1.5, 
+        ease: "power3.inOut",
+        onComplete: () => {
+          // 5. Cleanup: hide the old image once the wipe is totally finished
+          gsap.set(images[prevIndex] as Element, { zIndex: 0, clipPath: "inset(100% 0 0 0)" });
+          // Update the ref for the next transition
+          prevIndexRef.current = activeIndex;
+        }
       });
     },
     { dependencies: [activeIndex], scope: containerRef }
@@ -70,85 +106,98 @@ export default function HeroSection() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden"
+      // h-[100dvh] ensures it fits exactly one screen on both desktop and mobile browsers
+      className="relative w-full h-[100dvh] overflow-hidden bg-background text-foreground"
     >
-      {/* ── Fullscreen Rotating Background Images ── */}
-      {SHOWCASE_IMAGES.map((src, index) => (
-        <div
-          key={src}
-          data-index={index}
-          className="bg-slide-image absolute inset-0 opacity-0"
-          style={{ zIndex: 0 }}
-        >
-          <Image
-            src={src}
-            alt={`Background ${index + 1}`}
-            fill
-            priority={index === 0}
-            className="object-cover object-center"
-          />
-        </div>
-      ))}
-
-      {/* Dark overlay for readability */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/70 via-black/55 to-black/80" />
-
-      {/* Subtle colour vignette at edges */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-r from-blue-950/40 via-transparent to-indigo-950/40" />
-
-      {/* ── Centered Content ── */}
-      <div
-        ref={textRef}
-        className="relative z-20 flex flex-col items-center text-center space-y-6 px-6 max-w-4xl mx-auto"
-      >
-        {/* Badge */}
-        <div className="reveal-text inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full w-fit text-xs font-semibold tracking-wider uppercase text-blue-400">
-          ⚡ Ultimate Performance Guaranteed
-        </div>
-
-        {/* Headline */}
-        <h1 className="reveal-text text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.1]">
-          Next-Gen Power.{" "}
-          <br />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500">
-            Unleashed.
-          </span>
-        </h1>
-
-        {/* Sub-copy */}
-        <p className="reveal-text text-lg text-slate-300 max-w-xl leading-relaxed">
-          Forge your ultimate custom rig or shop precision-engineered, top-tier
-          hardware configurations here at Dollyva.
-        </p>
-
-        {/* CTA Buttons */}
-        <div className="reveal-btn flex flex-wrap justify-center gap-4 pt-4">
-          <Link
-            href="/build"
-            className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium rounded-xl shadow-lg shadow-blue-500/20 transition-transform active:scale-95"
+      {/* ── BACKGROUND IMAGE SLIDER ── */}
+      <div className="absolute inset-0 w-full h-full">
+        {SHOWCASE_IMAGES.map((src, index) => (
+          <div
+            key={src}
+            className="slide-image absolute inset-0 w-full h-full"
+            // Set initial state: first image is visible, others are hidden at the bottom
+            style={{ 
+              clipPath: index === 0 ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)",
+              zIndex: index === 0 ? 1 : 0
+            }}
           >
-            Start Custom Build
-          </Link>
-          <Link
-            href="/laptops"
-            className="px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-medium rounded-xl backdrop-blur-sm transition-colors"
-          >
-            Shop Laptops
-          </Link>
-        </div>
-
-        {/* Slide Indicators */}
-        <div className="reveal-text flex gap-2 pt-6">
-          {SHOWCASE_IMAGES.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setActiveIndex(idx)}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
-                activeIndex === idx ? "w-8 bg-blue-400" : "w-2.5 bg-white/25"
-              }`}
-              aria-label={`Background ${idx + 1}`}
+            <Image
+              src={src}
+              alt={`Rig Showcase ${index + 1}`}
+              fill
+              priority={index === 0}
+              className="object-cover object-center"
             />
-          ))}
+            {/* Heavy gradient to ensure text readability */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#0a0a0a]" />
+          </div>
+        ))}
+      </div>
+
+      {/* ── FOREGROUND CONTENT ── */}
+      {/* pt-32 accounts for the sticky header, pb-12 creates space at the bottom */}
+      <div className="relative z-10 w-full h-full flex flex-col justify-between pt-32 pb-8 px-6 md:px-12 max-w-[100rem] mx-auto">
+        
+        {/* Top Row: Tech Specs / Status (Pushed down by header) */}
+        <div className="hero-ui flex justify-between items-start w-full text-xs font-mono tracking-widest uppercase text-gray-300">
+          <div className="flex flex-col gap-1">
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
+              Custom Rigs
+            </span>
+            <span className="text-gray-500">Precision Engineered</span>
+          </div>
+          
+          <div className="text-right hidden md:block text-gray-500">
+            <p>01. PERFORMANCE</p>
+            <p>02. AESTHETICS</p>
+            <p>03. DOMINANCE</p>
+          </div>
+        </div>
+
+        {/* Bottom Row: Massive Typography & Interactions */}
+        <div className="flex flex-col w-full">
+          
+          {/* Brutalist Desktop CTA & Description - Sits just above the title */}
+          <div className="hero-ui flex flex-col md:flex-row items-start md:items-end justify-between w-full mb-6 md:mb-2">
+            <p className="text-sm md:text-base text-gray-300 max-w-sm leading-relaxed font-light mb-6 md:mb-0">
+              We don&apos;t just build computers. We forge extreme performance machines tailored for the elite.
+            </p>
+            
+            <Link
+              href="/build"
+              className="group relative inline-flex items-center justify-center px-10 py-4 bg-white text-black text-sm font-bold uppercase tracking-widest overflow-hidden rounded-sm"
+            >
+              <span className="relative z-10 group-hover:-translate-y-10 transition-transform duration-500">
+                Start Building
+              </span>
+              <span className="absolute z-10 translate-y-10 group-hover:translate-y-0 transition-transform duration-500">
+                Start Building
+              </span>
+            </Link>
+          </div>
+
+          {/* Huge Bottom-Anchored Typography */}
+          <div className="w-full flex justify-between items-end">
+            <div className="overflow-hidden pb-2">
+              <h1 className="hero-title-line text-[16vw] lg:text-[12vw] leading-[0.8] font-bold tracking-tighter text-white uppercase m-0 select-none">
+                DOMINATE.
+              </h1>
+            </div>
+            
+            {/* Slider Controls Container (Bottom Right) */}
+            <div className="hero-ui hidden md:flex flex-col items-end gap-3 pb-4">
+              <div className="font-mono text-sm text-white">
+                0{activeIndex + 1} <span className="text-gray-600">/ 0{SHOWCASE_IMAGES.length}</span>
+              </div>
+              
+              {/* Animated Progress Bar */}
+              <div className="w-32 h-[2px] bg-white/20 overflow-hidden">
+                <div className="progress-bar-fill w-full h-full bg-white origin-left" />
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

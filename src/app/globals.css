@@ -1,28 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Strict Dark Theme Colors */
+  --background: #0a0a0a;
+  --foreground: #f3f4f6;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 @layer base {
@@ -35,161 +26,29 @@ body {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(100, 120, 160, 0.3);
+    background: #374151; /* Minimal dark gray */
     border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(100, 140, 255, 0.6);
+    background: #4b5563; /* Slightly lighter gray on hover */
   }
   html {
     scrollbar-width: thin;
-    scrollbar-color: rgba(100, 120, 160, 0.3) transparent;
+    scrollbar-color: #374151 transparent;
   }
 }
 
 /* ═══════════════════════════════════════════════════════════
-   NAV HOVER EFFECTS  —  wrapped in @layer utilities so they
-   coexist correctly with Tailwind v4's cascade layers.
+   MINIMAL NAV HOVER EFFECTS 
+   (Replaces all previous neon/gradient animations)
 ═══════════════════════════════════════════════════════════ */
 @layer utilities {
-
-  /* ── Products: Sliding Cyan → Blue Underline ── */
-  .nav-products {
-    position: relative;
-    color: rgb(148 163 184);
-    transition: color 0.3s ease;
+  /* Apply this single class to all your nav links instead of individual ones */
+  .nav-item {
+    color: #9ca3af; /* text-gray-400 */
+    transition: color 0.2s ease-in-out;
   }
-  .nav-products::after {
-    content: "";
-    position: absolute;
-    bottom: -3px;
-    left: 0;
-    width: 0%;
-    height: 2px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #06b6d4, #3b82f6);
-    box-shadow: 0 0 8px #06b6d4cc;
-    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .nav-products:hover {
-    color: #e2e8f0;
-  }
-  .nav-products:hover::after {
-    width: 100%;
-  }
-
-  /* ── Accessories: Sliding Cyan → Blue Underline ── */
-  .nav-accessories {
-    position: relative;
-    color: rgb(148 163 184);
-    transition: color 0.3s ease;
-  }
-  .nav-accessories::after {
-    content: "";
-    position: absolute;
-    bottom: -3px;
-    left: 0;
-    width: 0%;
-    height: 2px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #06b6d4, #3b82f6);
-    box-shadow: 0 0 8px #06b6d4cc;
-    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .nav-accessories:hover {
-    color: #e2e8f0;
-  }
-  .nav-accessories:hover::after {
-    width: 100%;
-  }
-
-  /* ── Brands: Sliding Cyan → Blue Underline ── */
-  .nav-brands {
-    position: relative;
-    color: rgb(148 163 184);
-    transition: color 0.3s ease;
-  }
-  .nav-brands::after {
-    content: "";
-    position: absolute;
-    bottom: -3px;
-    left: 0;
-    width: 0%;
-    height: 2px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #06b6d4, #3b82f6);
-    box-shadow: 0 0 8px #06b6d4cc;
-    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .nav-brands:hover {
-    color: #e2e8f0;
-  }
-  .nav-brands:hover::after {
-    width: 100%;
-  }
-
-  /* ── Laptops: Sliding Cyan → Blue Underline ── */
-  .nav-laptops {
-    position: relative;
-    color: rgb(148 163 184);
-    transition: color 0.3s ease;
-  }
-  .nav-laptops::after {
-    content: "";
-    position: absolute;
-    bottom: -3px;
-    left: 0;
-    width: 0%;
-    height: 2px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #06b6d4, #3b82f6);
-    box-shadow: 0 0 8px #06b6d4cc;
-    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .nav-laptops:hover {
-    color: #e2e8f0;
-  }
-  .nav-laptops:hover::after {
-    width: 100%;
-  }
-
-  /* ── Build My PC: Shimmer Beam Pill ── */
-  @keyframes nav-shimmer {
-    0%   { left: -80%; }
-    100% { left: 130%; }
-  }
-  .nav-build {
-    position: relative;
-    overflow: hidden;
-    transition:
-      background-color 0.3s ease,
-      border-color 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-  .nav-build::before {
-    content: "";
-    position: absolute;
-    top: -10%;
-    left: -80%;
-    width: 45%;
-    height: 120%;
-    background: linear-gradient(
-      105deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.3) 50%,
-      transparent 100%
-    );
-    transform: skewX(-15deg);
-    pointer-events: none;
-  }
-  .nav-build:hover::before {
-    animation: nav-shimmer 0.6s ease forwards;
-  }
-  .nav-build:hover {
-    background-color: rgba(59, 130, 246, 0.3) !important;
-    border-color: rgba(96, 165, 250, 1) !important;
-    box-shadow:
-      0 0 20px rgba(59, 130, 246, 0.6),
-      0 0 8px rgba(59, 130, 246, 0.4) inset !important;
+  .nav-item:hover {
+    color: #ffffff;
   }
 }

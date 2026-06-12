@@ -8,44 +8,39 @@ import { useGSAP } from "@gsap/react";
 import { ArrowUpRight } from "lucide-react";
 
 // Mock Data for Premium Partner Brands
-// 'hoverColor' defines the custom GSAP drop-shadow glow for each brand
+// 'accent' uses exact brand hex codes for the sharp, brutalist hover lines
 const BRAND_PARTNERS = [
-  { id: "b1", name: "NVIDIA", tagline: "The Ultimate Play", logo: "/brand-nvidia.webp", hoverColor: "rgba(118, 185, 0, 0.4)" },
-  { id: "b2", name: "AMD", tagline: "Together We Advance", logo: "/brand-amd.webp", hoverColor: "rgba(237, 28, 36, 0.4)" },
-  { id: "b3", name: "ASUS ROG", tagline: "For Those Who Dare", logo: "/brand-asus.webp", hoverColor: "rgba(255, 0, 41, 0.4)" },
-  { id: "b4", name: "Corsair", tagline: "Never Compromise", logo: "/brand-corsair.webp", hoverColor: "rgba(255, 203, 5, 0.4)" },
-  { id: "b5", name: "MSI", tagline: "True Gaming", logo: "/brand-msi.webp", hoverColor: "rgba(226, 27, 34, 0.4)" },
-  { id: "b6", name: "Razer", tagline: "For Gamers. By Gamers.", logo: "/brand-razer.svg", hoverColor: "rgba(68, 214, 44, 0.4)" },
-  { id: "b7", name: "Intel", tagline: "Do Something Wonderful", logo: "/brand-intel.svg", hoverColor: "rgba(0, 104, 181, 0.4)" },
-  { id: "b8", name: "NZXT", tagline: "Build the Extraordinary", logo: "/brand-nzxt.svg", hoverColor: "rgba(121, 98, 204, 0.4)" },
+  { id: "01", name: "NVIDIA", tagline: "The Ultimate Play", logo: "/brand-nvidia.webp", accent: "#76b900" },
+  { id: "02", name: "AMD", tagline: "Together We Advance", logo: "/brand-amd.webp", accent: "#ed1c24" },
+  { id: "03", name: "ASUS ROG", tagline: "For Those Who Dare", logo: "/brand-asus.webp", accent: "#ff0029" },
+  { id: "04", name: "Corsair", tagline: "Never Compromise", logo: "/brand-corsair.webp", accent: "#ffcb05" },
+  { id: "05", name: "MSI", tagline: "True Gaming", logo: "/brand-msi.webp", accent: "#e21b22" },
+  { id: "06", name: "Razer", tagline: "For Gamers. By Gamers.", logo: "/brand-razer.svg", accent: "#44d62c" },
+  { id: "07", name: "Intel", tagline: "Do Something Wonderful", logo: "/brand-intel.svg", accent: "#0068b5" },
+  { id: "08", name: "NZXT", tagline: "Build the Extraordinary", logo: "/brand-nzxt.svg", accent: "#7962cc" },
 ];
 
 // --- Individual Brand Card Component ---
-// Handled separately so each card can have its own independent GSAP hover ref
 function BrandCard({ brand }: { brand: typeof BRAND_PARTNERS[0] }) {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const { contextSafe } = useGSAP({ scope: cardRef });
 
   const handleMouseEnter = contextSafe(() => {
-    gsap.to(cardRef.current, {
-      scale: 1.05,
-      y: -8,
-      boxShadow: `0 20px 40px -10px ${brand.hoverColor}`,
-      borderColor: "rgba(255, 255, 255, 0.15)",
-      duration: 0.4,
-      ease: "power3.out",
-    });
+    // Sweep down the accent line
+    gsap.to(".brand-accent", { height: "100%", duration: 0.4, ease: "power3.out" });
+    // Snap logo to full color and scale up
+    gsap.to(".brand-logo", { filter: "grayscale(0%)", opacity: 1, scale: 1.1, duration: 0.5, ease: "power4.out" });
+    // Slide in the arrow
+    gsap.to(".brand-arrow", { x: 0, y: 0, opacity: 1, duration: 0.3, ease: "power2.out" });
+    // Slightly push the text content right
+    gsap.to(".brand-text", { x: 8, duration: 0.4, ease: "power3.out" });
   });
 
   const handleMouseLeave = contextSafe(() => {
-    gsap.to(cardRef.current, {
-      scale: 1,
-      y: 0,
-      boxShadow: "0 0px 0px 0px rgba(0, 0, 0, 0)",
-      borderColor: "rgba(255, 255, 255, 0.05)",
-      duration: 0.4,
-      ease: "power3.out",
-    });
+    gsap.to(".brand-accent", { height: "0%", duration: 0.4, ease: "power3.inOut" });
+    gsap.to(".brand-logo", { filter: "grayscale(100%)", opacity: 0.4, scale: 1, duration: 0.5, ease: "power3.out" });
+    gsap.to(".brand-arrow", { x: -10, y: 10, opacity: 0, duration: 0.3 });
+    gsap.to(".brand-text", { x: 0, duration: 0.4, ease: "power3.out" });
   });
 
   return (
@@ -54,35 +49,46 @@ function BrandCard({ brand }: { brand: typeof BRAND_PARTNERS[0] }) {
       ref={cardRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="group relative flex flex-col items-center justify-center bg-[#0b0b12] border border-white/5 rounded-xl md:rounded-2xl p-4 md:p-8 backdrop-blur-md transition-colors overflow-hidden h-40 md:h-64"
+      className="group relative flex flex-col justify-between bg-background p-8 md:p-12 transition-colors overflow-hidden h-[300px] md:h-[400px] lg:h-[450px] cursor-pointer"
     >
-      {/* Decorative ambient background blur inside the card */}
+      {/* Brutalist Accent Line (Hidden by default, sweeps down on hover) */}
       <div 
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ background: `radial-gradient(circle at center, ${brand.hoverColor} 0%, transparent 70%)`, opacity: 0.1 }}
+        className="brand-accent absolute top-0 left-0 w-1 h-0 z-20"
+        style={{ backgroundColor: brand.accent }}
       />
 
-      {/* Brand Logo Container */}
-      <div className="relative w-20 h-12 md:w-32 md:h-20 mb-3 md:mb-6 flex items-center justify-center shrink-0">
+      {/* Top Header: ID & Arrow */}
+      <div className="flex justify-between items-start w-full z-10 relative">
+        <span className="text-[10px] md:text-xs font-mono tracking-[0.2em] text-gray-600 uppercase">
+          [MFR_{brand.id}]
+        </span>
+        <div className="brand-arrow opacity-0 -translate-x-2 translate-y-2 text-white">
+          <ArrowUpRight size={24} strokeWidth={1.5} />
+        </div>
+      </div>
+
+      {/* Center: Brand Logo */}
+      <div className="relative w-full h-24 md:h-32 flex items-center justify-center z-10 my-auto">
         <Image 
           src={brand.logo} 
           alt={`${brand.name} Logo`} 
           fill 
-          className="object-contain drop-shadow-xl opacity-80 group-hover:opacity-100 transition-opacity" 
+          className="brand-logo object-contain grayscale opacity-40 transition-none" 
         />
       </div>
 
-      <h3 className="text-white font-bold text-sm md:text-lg tracking-wide mb-0.5 md:mb-1 z-10 text-center leading-tight">
-        {brand.name}
-      </h3>
-      <p className="text-[9px] md:text-xs text-slate-400 font-medium tracking-wider uppercase z-10 text-center px-1 line-clamp-2 md:line-clamp-none leading-tight">
-        {brand.tagline}
-      </p>
-      
-      {/* Small floating indicator to show it's a link */}
-      <div className="absolute top-2 right-2 md:top-4 md:right-4 opacity-0 group-hover:opacity-100 transform translate-x-2 -translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-300 text-white/50 scale-75 md:scale-100 origin-top-right">
-        <ArrowUpRight size={20} />
+      {/* Bottom: Text Content */}
+      <div className="brand-text flex flex-col z-10 relative mt-auto">
+        <h3 className="text-white font-bold text-xl md:text-2xl tracking-tight uppercase mb-2">
+          {brand.name}
+        </h3>
+        <p className="text-xs text-gray-500 font-mono tracking-widest uppercase">
+          {brand.tagline}
+        </p>
       </div>
+
+      {/* Subtle background noise overlay for texture */}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'url("/noise.png")' }} />
     </Link>
   );
 }
@@ -90,45 +96,63 @@ function BrandCard({ brand }: { brand: typeof BRAND_PARTNERS[0] }) {
 
 // --- Main Page Layout ---
 export default function BrandsPage() {
-  const gridRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Staggered entrance animation for brand cards on load
   useGSAP(() => {
+    // Header reveal
     gsap.fromTo(
-      ".brand-card-stagger",
-      { opacity: 0, scale: 0.9, y: 20 },
-      { opacity: 1, scale: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "back.out(1.2)" }
+      ".header-anim",
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power4.out" }
     );
-  }, { scope: gridRef });
+
+    // Staggered grid reveal
+    gsap.fromTo(
+      ".stagger-card",
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out", delay: 0.2 }
+    );
+  }, { scope: containerRef });
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-8 md:pb-12 relative">
-      
-      {/* Ambient background glows for the whole page */}
-      <div className="absolute top-0 left-[20%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-600/5 rounded-full blur-[100px] md:blur-[150px] pointer-events-none -z-10" />
-      
-      {/* Page Header */}
-      <div className="mb-8 md:mb-16 text-center max-w-2xl mx-auto px-2 md:px-0">
-        <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight mb-2 md:mb-4">
-          Elite Partners
-        </h1>
-        <p className="text-sm md:text-lg text-slate-400 leading-relaxed">
-          We only build with the best. Explore our curated selection of tier-one hardware manufacturers powering the world's most advanced systems.
-        </p>
-      </div>
-
-      {/* Grid Container */}
-      <div 
-        ref={gridRef} 
-        className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"
-      >
-        {BRAND_PARTNERS.map((brand) => (
-          <div key={brand.id} className="brand-card-stagger opacity-0">
-            <BrandCard brand={brand} />
+    <div ref={containerRef} className="w-full bg-background min-h-screen pt-32 pb-24 text-foreground border-t border-white/10">
+      <div className="max-w-[100rem] mx-auto px-6 md:px-12">
+        
+        {/* Massive Editorial Header */}
+        <div className="mb-20 md:mb-32 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+          <div className="flex flex-col select-none">
+            <span className="header-anim text-xs font-mono tracking-[0.3em] uppercase text-gray-500 mb-6 block">
+              Global Supply Chain
+            </span>
+            <div className="overflow-hidden py-1">
+              <h1 className="header-anim text-[12vw] md:text-[8vw] font-bold uppercase tracking-tighter leading-[0.85] text-white">
+                TIER 1
+              </h1>
+            </div>
+            <div className="overflow-hidden py-1">
+              <h1 className="header-anim text-[12vw] md:text-[8vw] font-bold uppercase tracking-tighter leading-[0.85] text-transparent stroke-text" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.4)" }}>
+                PARTNERS.
+              </h1>
+            </div>
           </div>
-        ))}
+
+          <p className="header-anim text-sm md:text-base text-gray-400 font-light leading-relaxed max-w-sm md:pb-4">
+            We only engineer with absolute precision. Explore our curated network of global hardware manufacturers powering the world's most dominant systems.
+          </p>
+        </div>
+
+        {/* Seamless Hairline Grid Architecture 
+            gap-px + bg-white/10 creates strict 1px borders between all cells
+        */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border-y border-white/10">
+          {BRAND_PARTNERS.map((brand) => (
+            <div key={brand.id} className="stagger-card bg-background">
+              <BrandCard brand={brand} />
+            </div>
+          ))}
+        </div>
+        
       </div>
-      
     </div>
   );
 }

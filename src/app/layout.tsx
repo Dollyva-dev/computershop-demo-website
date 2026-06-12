@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
-// Using Inter for a clean, modern aesthetic
-const inter = Inter({ subsets: ["latin"] });
+// Using Poppins for a sleek, modern, and geometric aesthetic
+const poppins = Poppins({ 
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"], // Poppins requires explicit weights
+});
 
 export const metadata: Metadata = {
   title: "Dollyva Computers | Next-Gen Power Unleashed",
@@ -19,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-[#050505] text-slate-200 antialiased min-h-screen flex flex-col`}>
+      <body className={`${poppins.className} bg-background text-foreground antialiased min-h-screen flex flex-col`}>
         <Header />
         {/* Main content takes up available space, pushing footer down */}
         <main className="flex-grow">

@@ -7,15 +7,13 @@ import { Chipset, Category, Part } from "@/components/build/types";
 import { CHIPSET_THEME } from "@/components/build/data";
 import { PCCaseDiagram } from "@/components/build/PCCaseDiagram";
 import { LiveInvoice, triggerFlyAnimation } from "@/components/build/LiveInvoice";
-import { HoverPopup } from "@/components/build/HoverPopup";
+import { SidePanel } from "@/components/build/SidePanel";
 
 export default function InteractiveBuildPage() {
   const [chipset, setChipset] = useState<Chipset>(null);
   const [selectedParts, setSelectedParts] = useState<Partial<Record<Category, Part>>>({});
   const [hoveredZone, setHoveredZone] = useState<Category | null>(null);
-  const [popupCat, setPopupCat] = useState<Category | null>(null);
-  const [popupPos, setPopupPos] = useState({ x: 0, y: 0 });
-  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [activePanel, setActivePanel] = useState<Category | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Elegant Entrance Animation
@@ -27,29 +25,11 @@ export default function InteractiveBuildPage() {
     );
   }, { scope: containerRef });
 
-  const openPopup = useCallback((cat: Category, clientX: number, clientY: number) => {
-    if (hoverTimer.current) clearTimeout(hoverTimer.current);
-    setHoveredZone(cat);
-    setPopupCat(cat);
-    setPopupPos({ x: clientX, y: clientY });
-  }, []);
-
-  const beginClose = useCallback(() => {
-    hoverTimer.current = setTimeout(() => {
-      setHoveredZone(null);
-      setPopupCat(null);
-    }, 220);
-  }, []);
-
-  const cancelClose = useCallback(() => {
-    if (hoverTimer.current) clearTimeout(hoverTimer.current);
-  }, []);
-
   const handleSelect = useCallback((cat: Category, part: Part, e: React.MouseEvent) => {
     setSelectedParts(prev => ({ ...prev, [cat]: part }));
     triggerFlyAnimation(e);
-    setPopupCat(null);
-    setHoveredZone(null);
+    // Optionally close the panel after selection, or leave it open
+    // setActivePanel(null);
   }, []);
 
   return (
@@ -134,10 +114,12 @@ export default function InteractiveBuildPage() {
               <div className="flex-1 w-full h-full flex items-center justify-center p-4 relative z-0 overflow-x-auto touch-pan-x" style={{ scrollbarWidth: "none" }}>
                 <div className="w-full max-w-[900px] min-w-[700px]">
                   <PCCaseDiagram
+                    chipset={chipset}
                     hoveredZone={hoveredZone}
                     selectedParts={selectedParts}
-                    onEnter={openPopup}
-                    onLeave={beginClose}
+                    onEnter={setHoveredZone}
+                    onLeave={() => setHoveredZone(null)}
+                    onClick={setActivePanel}
                     theme={CHIPSET_THEME[chipset]}
                   />
                 </div>
@@ -152,17 +134,15 @@ export default function InteractiveBuildPage() {
               theme={CHIPSET_THEME[chipset]} 
             />
 
-            {/* HIGH-END POPUP MODAL */}
-            {popupCat && (
-              <HoverPopup
-                cat={popupCat}
-                pos={popupPos}
+            {/* HIGH-END SIDE PANEL */}
+            {activePanel && (
+              <SidePanel
+                cat={activePanel}
                 chipset={chipset}
                 theme={CHIPSET_THEME[chipset]}
                 selectedParts={selectedParts}
-                onSelect={(part, e) => handleSelect(popupCat, part, e)}
-                onEnter={cancelClose}
-                onLeave={beginClose}
+                onSelect={(part, e) => handleSelect(activePanel, part, e)}
+                onClose={() => setActivePanel(null)}
               />
             )}
 

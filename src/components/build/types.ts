@@ -19,4 +19,5 @@ export type Part = {
   price: number;
   specs: string;
   compatibility: "AMD" | "Intel" | "Universal";
+  image?: string;
 };

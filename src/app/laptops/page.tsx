@@ -43,65 +43,84 @@ const LAPTOP_PRODUCTS = [
 ];
 
 export default function LaptopsPage() {
-  const gridRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Staggered entrance animation for product cards on load
   useGSAP(() => {
+    // Header reveal animation
+    gsap.fromTo(
+      ".catalog-header",
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "power4.out" }
+    );
+
+    // Staggered grid reveal animation
     gsap.fromTo(
       ".stagger-card",
-      { opacity: 0, y: 30 },
-      { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power2.out" }
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power3.out", delay: 0.2 }
     );
-  }, { scope: gridRef });
+  }, { scope: containerRef });
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 pt-24 pb-12">
-      
-      {/* Page Header - Updated specifically for this route */}
-      <div className="mb-10">
-        <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">
-          Gaming Laptops
-        </h1>
-        <p className="text-slate-400">
-          Portable powerhouses engineered for uncompromising, on-the-go performance.
-        </p>
-      </div>
-
-      <div className="flex flex-col md:flex-row gap-10">
+    <div ref={containerRef} className="w-full bg-background min-h-screen pt-32 pb-24 text-foreground">
+      <div className="max-w-[100rem] mx-auto px-6 md:px-12">
         
-        {/* Left Column: Filters Sidebar */}
-        <FiltersSidebar />
-
-        {/* Right Column: Product Grid */}
-        <div className="flex-1">
-          {/* Controls Bar (Sort & Mobile Filter Toggle) */}
-          <div className="flex items-center justify-between mb-8 bg-white/5 border border-white/5 p-4 rounded-xl backdrop-blur-sm">
-            <span className="text-sm text-slate-400">Showing {LAPTOP_PRODUCTS.length} results</span>
-            
-            <div className="flex items-center gap-3">
-              <label htmlFor="sort" className="text-sm text-slate-400 hidden sm:block">Sort by:</label>
-              <select 
-                id="sort" 
-                className="bg-[#0b0b12] border border-white/10 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 outline-none cursor-pointer"
-              >
-                <option>Featured</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Newest Arrivals</option>
-              </select>
-            </div>
+        {/* Massive Catalog Header */}
+        <div className="mb-16 md:mb-24 flex flex-col md:flex-row justify-between items-start md:items-end border-b border-white/10 pb-8">
+          <div className="overflow-hidden">
+            <h1 className="catalog-header text-[10vw] md:text-[6vw] font-bold uppercase tracking-tighter leading-none text-white m-0">
+              LAPTOPS_
+            </h1>
           </div>
-
-          {/* Grid Container rendering the filtered LAPTOP_PRODUCTS */}
-          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-            {LAPTOP_PRODUCTS.map((product) => (
-              <div key={product.id} className="stagger-card opacity-0">
-                <ProductCard {...product} />
-              </div>
-            ))}
-          </div>
-          
+          <p className="catalog-header text-sm text-gray-500 font-mono tracking-widest uppercase max-w-xs md:text-right mt-6 md:mt-0">
+            Portable powerhouses engineered for uncompromising, on-the-go performance.
+          </p>
         </div>
+
+        <div className="flex flex-col lg:flex-row gap-0 lg:gap-12">
+          
+          {/* Left Column: Strict Filters Sidebar */}
+          <FiltersSidebar />
+
+          {/* Right Column: Product Grid Architecture */}
+          <div className="flex-1 w-full">
+            
+            {/* Top Control Bar (Sharp Edges) */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 pb-4 border-b border-white/10 w-full gap-4">
+              <span className="text-xs font-mono tracking-widest text-gray-500 uppercase">
+                Showing [0{LAPTOP_PRODUCTS.length}] Results
+              </span>
+              
+              <div className="flex items-center gap-4">
+                <label htmlFor="sort" className="text-xs font-mono tracking-widest text-gray-500 uppercase hidden sm:block">
+                  Sort:
+                </label>
+                <select 
+                  id="sort" 
+                  className="bg-transparent border-none text-white text-sm uppercase tracking-wider font-bold cursor-pointer outline-none hover:text-gray-300 transition-colors"
+                >
+                  <option className="bg-background">Featured</option>
+                  <option className="bg-background">Price: Ascending</option>
+                  <option className="bg-background">Price: Descending</option>
+                  <option className="bg-background">Newest</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Seamless Hairline Grid Container 
+                Uses gap-px and bg-white/10 to create perfect 1px borders between all cards
+            */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-px bg-white/10 border-y border-white/10">
+              {LAPTOP_PRODUCTS.map((product) => (
+                <div key={product.id} className="stagger-card bg-background">
+                  <ProductCard {...product} />
+                </div>
+              ))}
+            </div>
+            
+          </div>
+        </div>
+
       </div>
     </div>
   );

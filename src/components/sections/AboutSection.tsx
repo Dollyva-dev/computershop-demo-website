@@ -5,168 +5,213 @@ import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { Cpu, Layers, Wrench, Gauge } from "lucide-react";
 
-// Register ScrollTrigger
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, useGSAP);
+  gsap.registerPlugin(ScrollTrigger);
 }
 
 export default function AboutSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const imageGridRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // Timeline for the text content
-    const textTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 75%", 
-        toggleActions: "play none none reverse",
-      },
-    });
+    // 1. Massive Text Reveal Animation
+    gsap.fromTo(
+      ".about-title-line",
+      { y: "110%", rotationZ: 2 },
+      {
+        y: "0%",
+        rotationZ: 0,
+        duration: 1.2,
+        stagger: 0.1,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: textRef.current,
+          start: "top 80%",
+        },
+      }
+    );
 
-    textTl.fromTo(
-      ".about-text",
+    // Fade in text blocks
+    gsap.fromTo(
+      ".about-fade-up",
       { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out" }
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: textRef.current,
+          start: "top 70%",
+        },
+      }
     );
 
-    // Timeline for the abstract image grid
-    const gridTl = gsap.timeline({
+    // 2. Image Reveal (Clip-Path Wipe)
+    const images = gsap.utils.toArray(".about-image-wrapper");
+    images.forEach((img: any) => {
+      gsap.fromTo(
+        img,
+        { clipPath: "inset(100% 0 0 0)" },
+        {
+          clipPath: "inset(0% 0 0 0)",
+          duration: 1.5,
+          ease: "power4.inOut",
+          scrollTrigger: {
+            trigger: img,
+            start: "top 85%",
+          },
+        }
+      );
+    });
+
+    // 3. Parallax Image Scrolling
+    gsap.to(".parallax-img-fast", {
+      yPercent: -20,
+      ease: "none",
       scrollTrigger: {
-        trigger: gridRef.current,
-        start: "top 80%",
-        toggleActions: "play none none reverse",
+        trigger: imageGridRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
       },
     });
 
-    gridTl.fromTo(
-      ".grid-panel",
-      { scale: 0.8, opacity: 0, rotationY: 15 },
-      { scale: 1, opacity: 1, rotationY: 0, duration: 1, stagger: 0.2, ease: "expo.out" }
-    );
+    gsap.to(".parallax-img-slow", {
+      yPercent: 15,
+      ease: "none",
+      scrollTrigger: {
+        trigger: imageGridRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className="w-full max-w-7xl mx-auto px-6 py-24 lg:py-32 relative z-10 overflow-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    // Changed pb-32 to pb-12 here to reduce bottom spacing
+    <section ref={containerRef} className="w-full bg-background text-foreground border-t border-white/10 pt-24 pb-12">
+      <div className="max-w-[100rem] mx-auto px-6 md:px-12">
         
-        {/* Left Column: Text Content */}
-        <div className="flex flex-col space-y-8">
-          <div className="about-text inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-full w-fit text-xs font-semibold tracking-wider uppercase text-purple-400">
-            <Cpu size={14} /> The Dollyva Standard
+        {/* ── TOP SECTION: Massive Typography ── */}
+        <div ref={textRef} className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12 mb-24 md:mb-32">
+          
+          <div className="flex flex-col select-none">
+            <span className="about-fade-up text-xs font-mono tracking-[0.3em] uppercase text-gray-500 mb-6 block">
+              The Dollyva Standard
+            </span>
+            <div className="overflow-hidden py-2">
+              <h2 className="about-title-line text-[12vw] lg:text-[8vw] font-bold uppercase tracking-tighter leading-[0.85] text-white">
+                ZERO
+              </h2>
+            </div>
+            <div className="overflow-hidden py-2">
+              <h2 className="about-title-line text-[12vw] lg:text-[8vw] font-bold uppercase tracking-tighter leading-[0.85] text-transparent stroke-text" style={{ WebkitTextStroke: "1px rgba(255,255,255,0.4)" }}>
+                COMPROMISE.
+              </h2>
+            </div>
           </div>
-          
-          <h2 className="about-text text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight">
-            Built by Enthusiasts, <br />
-            <span className="text-slate-400">For Enthusiasts.</span>
-          </h2>
-          
-          <p className="about-text text-base md:text-lg text-slate-400 leading-relaxed max-w-lg">
-            We do not compromise. From selecting the absolute best-binned premium hardware to executing flawless, invisible cable management, every system engineered at Dollyva is a masterpiece of uncompromised performance.
+
+          <p className="about-fade-up text-sm md:text-base text-gray-400 font-light leading-relaxed max-w-md lg:pb-4">
+            We don&apos;t build standard computers. We curate, engineer, and stress-test every single component. From binning the silicon to microscopic cable management, Dollyva is the intersection of extreme power and pure aesthetics.
           </p>
-
-          <div className="flex flex-col space-y-5 pt-4">
-            {/* List Items */}
-            <div className="about-text flex items-start gap-4">
-              <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400 shrink-0">
-                <Wrench size={20} />
-              </div>
-              <div>
-                <h4 className="text-white font-medium mb-1">Precision Assembly</h4>
-                <p className="text-sm text-slate-400">Thermal compound application, perfect mounting pressure, and rigorous stress testing.</p>
-              </div>
-            </div>
-
-            <div className="about-text flex items-start gap-4">
-              <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400 shrink-0">
-                <Layers size={20} />
-              </div>
-              <div>
-                <h4 className="text-white font-medium mb-1">Immaculate Cable Routing</h4>
-                <p className="text-sm text-slate-400">Custom sleeved cables routed to perfection for optimal airflow and aesthetic brilliance.</p>
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* Right Column: Abstract "Image" Grid Showcase */}
-        <div ref={gridRef} className="relative h-[500px] w-full perspective-1000">
-          <div className="absolute inset-0 grid grid-cols-2 grid-rows-3 gap-4 transform rotate-[-5deg] scale-105">
+        {/* ── BOTTOM SECTION: Editorial Split Layout ── */}
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-8">
+          
+          {/* Left Column: Brutalist List */}
+          <div className="w-full lg:w-[35%] flex flex-col pt-12">
             
-            {/* Large Main Panel — Real PC Build Photo */}
-            <div className="grid-panel row-span-2 col-span-1 rounded-2xl border border-white/10 relative overflow-hidden group shadow-2xl">
+            <div className="about-fade-up border-t border-white/10 py-8 relative group">
+              <div className="font-mono text-xs tracking-widest text-gray-500 mb-4 flex justify-between">
+                <span>[01]</span>
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity">SYS_01</span>
+              </div>
+              <h4 className="text-xl font-bold uppercase tracking-wide text-white mb-3">Precision Assembly</h4>
+              <p className="text-sm text-gray-400 leading-relaxed font-light">
+                Flawless thermal compound application, exact mounting pressure, and rigorous structural integrity checks. Built to survive, engineered to dominate.
+              </p>
+            </div>
+
+            <div className="about-fade-up border-t border-white/10 py-8 relative group">
+              <div className="font-mono text-xs tracking-widest text-gray-500 mb-4 flex justify-between">
+                <span>[02]</span>
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity">SYS_02</span>
+              </div>
+              <h4 className="text-xl font-bold uppercase tracking-wide text-white mb-3">Invisible Routing</h4>
+              <p className="text-sm text-gray-400 leading-relaxed font-light">
+                Custom sleeved cables routed with mathematical precision. We optimize for maximum unrestricted airflow and a completely sterile, clean aesthetic.
+              </p>
+            </div>
+
+            <div className="about-fade-up border-y border-white/10 py-8 relative group">
+              <div className="font-mono text-xs tracking-widest text-gray-500 mb-4 flex justify-between">
+                <span>[03]</span>
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity">SYS_03</span>
+              </div>
+              <h4 className="text-xl font-bold uppercase tracking-wide text-white mb-3">Thermal Dominance</h4>
+              <p className="text-sm text-gray-400 leading-relaxed font-light">
+                Acoustically tuned fan curves and bespoke liquid cooling loops designed to maintain sub-zero performance under the most extreme synthetic loads.
+              </p>
+            </div>
+
+          </div>
+
+          {/* Right Column: Architectural Image Grid */}
+          <div ref={imageGridRef} className="w-full lg:w-[65%] grid grid-cols-2 gap-4 lg:gap-8 relative min-h-[600px] lg:pl-12">
+            
+            {/* Image 1 (Tall, Parallax Up) */}
+            <div className="about-image-wrapper relative w-full h-[400px] md:h-[600px] mt-12 overflow-hidden">
               <Image
                 src="/about-panel-main.png"
-                alt="Premium custom PC build by Dollyva"
+                alt="Premium custom PC build"
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 33vw"
+                className="parallax-img-fast object-cover scale-[1.2] grayscale-[30%] hover:grayscale-0 transition-all duration-700"
+                sizes="(max-width: 768px) 50vw, 33vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent z-10" />
-              <div className="absolute bottom-4 left-4 z-20 flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-                <span className="text-xs font-mono text-slate-300">IMG_SYS_01</span>
+              <div className="absolute top-4 left-4 font-mono text-[10px] text-white/50 tracking-widest mix-blend-difference">
+                FIG. A — ARCHITECTURE
               </div>
             </div>
 
-            {/* Top Right Panel — RGB Components Photo */}
-            <div className="grid-panel row-span-1 col-span-1 rounded-2xl border border-purple-500/20 relative overflow-hidden group shadow-xl">
-              <Image
-                src="/about-panel-components.webp"
-                alt="G.Skill RGB RAM on premium motherboard"
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 25vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
-              <div className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5">
-                <div className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-                <span className="text-[10px] font-mono text-purple-300">RGB · SYNC</span>
+            {/* Right Column Stack */}
+            <div className="flex flex-col gap-4 lg:gap-8">
+              
+              {/* Image 2 (Short, Parallax Down) */}
+              <div className="about-image-wrapper relative w-full h-[250px] md:h-[350px] overflow-hidden">
+                <Image
+                  src="/about-panel-components.webp"
+                  alt="Premium components"
+                  fill
+                  className="parallax-img-slow object-cover scale-[1.2] grayscale-[30%] hover:grayscale-0 transition-all duration-700"
+                  sizes="(max-width: 768px) 50vw, 20vw"
+                />
+                 <div className="absolute top-4 left-4 font-mono text-[10px] text-white/50 tracking-widest mix-blend-difference">
+                  FIG. B — COMPONENTS
+                </div>
               </div>
-            </div>
 
-            {/* Middle Right Panel — RTX GPU Build Photo */}
-            <div className="grid-panel row-span-2 col-span-1 rounded-2xl border border-blue-500/20 relative overflow-hidden group shadow-2xl">
-              <Image
-                src="/about-panel-gpu.webp"
-                alt="GeForce RTX GPU installed in a premium PC build"
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 25vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent z-10" />
-              <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
-                <Gauge size={12} className="text-blue-400" />
-                <span className="text-[10px] font-mono text-blue-400 uppercase tracking-widest">Perf. Mode</span>
-              </div>
-              <div className="absolute bottom-4 right-4 z-20 text-right">
-                <div className="text-[10px] font-mono text-indigo-400/70 mb-0.5">FLAGSHIP</div>
-                <span className="text-xs font-mono text-indigo-300">RTX_4090_BUILD</span>
-              </div>
-            </div>
-
-            {/* Bottom Left Panel — Cable Management Photo */}
-            <div className="grid-panel row-span-1 col-span-1 rounded-2xl border border-cyan-500/15 relative overflow-hidden group shadow-xl">
-              <Image
-                src="/about-panel-cables.webp"
-                alt="Immaculate custom PC cable management"
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 100vw, 25vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
-              <div className="absolute bottom-3 left-3 z-20 flex items-center gap-1.5">
-                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                <span className="text-[10px] font-mono text-cyan-300">Airflow · Optimized</span>
+              {/* Image 3 (Square, Parallax Up) */}
+              <div className="about-image-wrapper relative w-full h-[250px] md:h-[350px] overflow-hidden">
+                <Image
+                  src="/about-panel-gpu.webp"
+                  alt="GeForce RTX GPU"
+                  fill
+                  className="parallax-img-fast object-cover scale-[1.2] grayscale-[30%] hover:grayscale-0 transition-all duration-700"
+                  sizes="(max-width: 768px) 50vw, 20vw"
+                />
+                 <div className="absolute top-4 left-4 font-mono text-[10px] text-white/50 tracking-widest mix-blend-difference">
+                  FIG. C — GRAPHICS
+                </div>
               </div>
             </div>
 
           </div>
-          
-          {/* Decorative ambient glow behind the grid */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-blue-500/20 blur-[100px] -z-10 rounded-full" />
         </div>
 
       </div>

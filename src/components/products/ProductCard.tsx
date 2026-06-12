@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { ShoppingCart } from "lucide-react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -15,32 +14,20 @@ interface ProductCardProps {
   inStock: boolean;
 }
 
-export default function ProductCard({ name, price, category, image, inStock }: ProductCardProps) {
+export default function ProductCard({ id, name, price, category, image, inStock }: ProductCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-
-  // GSAP Hover Animations using contextSafe for React event handlers
   const { contextSafe } = useGSAP({ scope: cardRef });
 
   const handleMouseEnter = contextSafe(() => {
-    gsap.to(cardRef.current, {
-      scale: 1.03,
-      y: -5,
-      boxShadow: "0 20px 40px -10px rgba(59, 130, 246, 0.3)",
-      borderColor: "rgba(59, 130, 246, 0.4)",
-      duration: 0.4,
-      ease: "power3.out",
-    });
+    // Reveal the "ACQUIRE" button by sliding it up
+    gsap.to(".add-btn", { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" });
+    // Animate image scale and saturation
+    gsap.to(".prod-img", { scale: 1.05, filter: "grayscale(0%)", duration: 0.6, ease: "power2.out" });
   });
 
   const handleMouseLeave = contextSafe(() => {
-    gsap.to(cardRef.current, {
-      scale: 1,
-      y: 0,
-      boxShadow: "0 0px 0px 0px rgba(59, 130, 246, 0)",
-      borderColor: "rgba(255, 255, 255, 0.05)",
-      duration: 0.4,
-      ease: "power3.out",
-    });
+    gsap.to(".add-btn", { y: 20, opacity: 0, duration: 0.3, ease: "power2.in" });
+    gsap.to(".prod-img", { scale: 1, filter: "grayscale(100%)", duration: 0.6, ease: "power2.out" });
   });
 
   return (
@@ -48,44 +35,51 @@ export default function ProductCard({ name, price, category, image, inStock }: P
       ref={cardRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="flex flex-col bg-[#0b0b12] border border-white/5 rounded-2xl overflow-hidden backdrop-blur-md cursor-pointer transition-colors"
+      className="group relative flex flex-col h-full bg-background border border-white/10 hover:border-white transition-colors duration-500 cursor-pointer overflow-hidden p-6"
     >
-      {/* Product Image Area */}
-      <div className="relative w-full h-56 bg-black/40 p-6 flex items-center justify-center">
-        {/* Placeholder for actual product image */}
-        <div className="w-full h-full relative">
-          <Image 
-            src={image} 
-            alt={name} 
-            fill 
-            className="object-contain drop-shadow-2xl" 
-          />
-        </div>
-        {!inStock && (
-          <div className="absolute top-3 right-3 bg-red-500/20 text-red-400 border border-red-500/30 text-xs px-2 py-1 rounded-md font-medium">
-            Out of Stock
-          </div>
-        )}
+      {/* Top Status Bar */}
+      <div className="flex justify-between items-start w-full font-mono text-[10px] tracking-widest uppercase mb-8 z-10 relative">
+        <span className="text-gray-500">ID_{id.padStart(4, '0')}</span>
+        <span className={inStock ? "text-white" : "text-red-500 line-through"}>
+          {inStock ? "In Stock" : "Depleted"}
+        </span>
       </div>
 
-      {/* Product Info Area */}
-      <div className="p-5 flex flex-col flex-grow border-t border-white/5">
-        <span className="text-xs text-blue-400 font-medium mb-1 uppercase tracking-wider">{category}</span>
-        <h3 className="text-white font-semibold text-lg leading-tight mb-4 flex-grow">{name}</h3>
+      {/* Image Area */}
+      <div className="relative w-full h-56 flex items-center justify-center mb-8 z-0">
+        <Image 
+          src={image} 
+          alt={name} 
+          fill 
+          className="prod-img object-contain grayscale transition-all" 
+        />
+        {/* Subtle background technical crosshair */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+          <div className="w-full h-px bg-white/20 absolute" />
+          <div className="h-full w-px bg-white/20 absolute" />
+        </div>
+      </div>
+
+      {/* Content Area */}
+      <div className="flex flex-col flex-grow relative z-10">
+        <span className="text-[10px] text-gray-500 font-mono uppercase tracking-widest mb-2 block">
+          {category}
+        </span>
+        <h3 className="text-white font-bold text-lg leading-tight uppercase tracking-wide mb-6 flex-grow">
+          {name}
+        </h3>
         
-        <div className="flex items-center justify-between mt-auto">
-          <span className="text-xl font-bold text-white">
+        <div className="flex items-end justify-between overflow-hidden">
+          <span className="text-xl font-bold text-white tracking-tighter">
             ${price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </span>
+          
+          {/* Brutalist Button - Hidden by default, slides up on hover */}
           <button 
             disabled={!inStock}
-            className={`p-2.5 rounded-xl transition-colors ${
-              inStock 
-                ? "bg-white/5 hover:bg-blue-600 text-white border border-white/10 hover:border-blue-500" 
-                : "bg-white/5 text-slate-600 border border-transparent cursor-not-allowed"
-            }`}
+            className="add-btn translate-y-5 opacity-0 bg-white text-black text-xs font-bold uppercase tracking-widest px-4 py-2 hover:bg-gray-300 disabled:bg-white/10 disabled:text-white/30 transition-colors"
           >
-            <ShoppingCart size={18} />
+            {inStock ? "Acquire" : "Unavailable"}
           </button>
         </div>
       </div>

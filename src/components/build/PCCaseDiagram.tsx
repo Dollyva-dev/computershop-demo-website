@@ -1,5 +1,5 @@
 import React from "react";
-import { Category, Part } from "./types";
+import { Category, Part, Chipset } from "./types";
 
 interface ZoneProps {
   cat: Category;
@@ -7,12 +7,13 @@ interface ZoneProps {
   label: string;
   hoveredZone: Category | null;
   selectedParts: Partial<Record<Category, Part>>;
-  onEnter: (cat: Category, clientX: number, clientY: number) => void;
+  onEnter: (cat: Category) => void;
   onLeave: () => void;
+  onClick: (cat: Category) => void;
   accent: string;
 }
 
-function Zone({ cat, x, y, w, h, label, hoveredZone, selectedParts, onEnter, onLeave, accent }: ZoneProps) {
+function Zone({ cat, x, y, w, h, label, hoveredZone, selectedParts, onEnter, onLeave, onClick, accent }: ZoneProps) {
   const isHov = hoveredZone === cat;
   const isSel = !!selectedParts[cat];
 
@@ -27,8 +28,9 @@ function Zone({ cat, x, y, w, h, label, hoveredZone, selectedParts, onEnter, onL
 
   return (
     <g
-      onMouseEnter={e => onEnter(cat, e.clientX, e.clientY)}
+      onMouseEnter={() => onEnter(cat)}
       onMouseLeave={onLeave}
+      onClick={() => onClick(cat)}
       style={{ cursor: "pointer" }}
       className="transition-all duration-300"
     >
@@ -75,14 +77,16 @@ function FanCircle({ cx, cy, rx: frx = 0, ry: fry = 0, r = 0, isFlat = false }: 
 }
 
 export interface DiagramProps {
+  chipset?: Chipset;
   hoveredZone: Category | null;
   selectedParts: Partial<Record<Category, Part>>;
-  onEnter: (cat: Category, clientX: number, clientY: number) => void;
+  onEnter: (cat: Category) => void;
   onLeave: () => void;
+  onClick: (cat: Category) => void;
   theme: { accent: string; glow: string };
 }
 
-export function PCCaseDiagram({ hoveredZone, selectedParts, onEnter, onLeave, theme }: DiagramProps) {
+export function PCCaseDiagram({ chipset, hoveredZone, selectedParts, onEnter, onLeave, onClick, theme }: DiagramProps) {
   const accent = theme.accent;
 
   // Geometry
@@ -99,7 +103,7 @@ export function PCCaseDiagram({ hoveredZone, selectedParts, onEnter, onLeave, th
     return { x: GX1 + GW * x1p, y: GY1 + GH * y1p, w: GW * (x2p - x1p), h: GH * (y2p - y1p) };
   }
 
-  const zp = { hoveredZone, selectedParts, onEnter, onLeave, accent };
+  const zp = { hoveredZone, selectedParts, onEnter, onLeave, onClick, accent };
 
   // Helper for FANS zone styling
   const fanStroke = hoveredZone === "FANS" ? accent : "transparent";
@@ -169,13 +173,44 @@ export function PCCaseDiagram({ hoveredZone, selectedParts, onEnter, onLeave, th
         <line x1={GX2} y1={GY2} x2={RBR[0]} y2={RBR[1]} stroke="rgba(255,255,255,0.1)" strokeWidth={1} />
         <line x1={LBL[0]} y1={LBL[1]} x2={RBR[0]} y2={RBR[1]} stroke="rgba(255,255,255,0.1)" strokeWidth={1} />
 
+        {/* ── PROCESSOR GRAPHIC ── */}
+        {(() => {
+          const px = GX1 + GW * 0.06;
+          const py = GY1 + GH * 0.225;
+          const pw = GW * 0.105;
+          const ph = GH * 0.155;
+          const hasCPU = !!selectedParts["PROCESSORS"];
+          const pStroke = chipset === "AMD" ? "#ef4444" : chipset === "Intel" ? "#3b82f6" : "rgba(255,255,255,0.2)";
+          const pFill = hasCPU ? (chipset === "AMD" ? "rgba(239,68,68,0.1)" : "rgba(59,130,246,0.1)") : "rgba(255,255,255,0.03)";
+          
+          return (
+            <g pointerEvents="none">
+              <rect x={px} y={py} width={pw} height={ph} fill={pFill} stroke={pStroke} strokeWidth={1.5} rx={2} />
+              {/* Internal socket pins illusion */}
+              <rect x={px+4} y={py+4} width={pw-8} height={ph-8} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={1} strokeDasharray="1 1" />
+            </g>
+          );
+        })()}
+
       </g>
 
       {/* ── INTERACTIVE FAN ZONES ── */}
-      <g onMouseEnter={e => onEnter("FANS", e.clientX, e.clientY)} onMouseLeave={onLeave} style={{ cursor: "pointer" }} clipPath="url(#c-back)">
+      <g 
+        onMouseEnter={() => onEnter("FANS")} 
+        onMouseLeave={onLeave} 
+        onClick={() => onClick("FANS")}
+        style={{ cursor: "pointer" }} 
+        clipPath="url(#c-back)"
+      >
         <rect x={100} y={100} width={55} height={55} fill={fanFill} stroke={fanStroke} strokeWidth={1} rx={4} />
       </g>
-      <g onMouseEnter={e => onEnter("FANS", e.clientX, e.clientY)} onMouseLeave={onLeave} style={{ cursor: "pointer" }} clipPath="url(#c-front)">
+      <g 
+        onMouseEnter={() => onEnter("FANS")} 
+        onMouseLeave={onLeave} 
+        onClick={() => onClick("FANS")}
+        style={{ cursor: "pointer" }} 
+        clipPath="url(#c-front)"
+      >
         {[165,315,460].map((fy,i) => (
           <rect key={i} x={647} y={fy} width={62} height={55} fill={fanFill} stroke={fanStroke} strokeWidth={1} rx={4} />
         ))}
@@ -184,7 +219,7 @@ export function PCCaseDiagram({ hoveredZone, selectedParts, onEnter, onLeave, th
       {/* ── COMPONENT HOTSPOT ZONES ── */}
       {(() => { const z = gp(0.032,0.055,0.508,0.64); return <Zone cat="MOTHERBOARDS" {...z} label="Motherboard" labelPos="t" {...zp} />; })()}
       {(() => { const z = gp(0.04,0.065,0.25,0.215); return <Zone cat="COOLERS" {...z} label="Cooler" labelPos="t" {...zp} />; })()}
-      {(() => { const z = gp(0.05,0.215,0.175,0.39); return <Zone cat="PROCESSORS" {...z} label="CPU" {...zp} />; })()}
+      {(() => { const z = gp(0.05,0.215,0.175,0.39); return <Zone cat="PROCESSORS" {...z} label={chipset || "CPU"} {...zp} />; })()}
       {(() => { const z = gp(0.26,0.07,0.35,0.49); return <Zone cat="MEMORY" {...z} label="RAM" {...zp} />; })()}
       {(() => { const z = gp(0.08,0.52,0.48,0.60); return <Zone cat="SSD & NVME" {...z} label="Storage 1" {...zp} />; })()}
       {(() => { const z = gp(0.08,0.61,0.48,0.68); return <Zone cat="EXTRA SSD & NVME" {...z} label="Storage 2" {...zp} />; })()}
